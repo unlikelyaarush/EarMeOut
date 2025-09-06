@@ -1,0 +1,32 @@
+.homepage {
+  width: 100%;
+  height: 100vh;
+  background-color: #1A3636;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-text {
+  color: white;
+  font-family: 'Gloria Hallelujah', cursive;
+  font-size: 5rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+  line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+  .welcome-text {
+    font-size: 3.5rem;
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-text {
+    font-size: 2.5rem;
+    padding: 0 15px;
+  }
+}
