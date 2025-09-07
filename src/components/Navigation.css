@@ -3,11 +3,9 @@
   top: 0;
   left: 0;
   right: 0;
-  background-color: #ffffff;
+  background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 25%, #9333EA 50%, #7C3AED 75%, #6D28D9 100%);
   backdrop-filter: blur(10px);
   z-index: 1000;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-  border-bottom: 2px solid #1A3636;
 }
 
 .nav-container {
@@ -15,103 +13,225 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 4rem;
-  height: 70px;
+  padding: 3rem 6rem;
+  height: 110px;
 }
 
 .nav-center {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .nav-logo {
   font-family: 'Gloria Hallelujah', cursive;
   font-size: 2rem;
   font-weight: bold;
-  color: #1A3636;
+  color: #ffffff;
   text-decoration: none;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease;
 }
 
 .nav-logo:hover {
-  color: #ffffff;
+  color: #000000;
   transform: scale(1.05);
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 4px 8px rgba(255, 255, 255, 0.6);
 }
 
-.nav-buttons {
+.nav-tabs {
   position: relative;
   display: flex;
   width: fit-content;
-  border-radius: 25px;
-  border: 2px solid #1A3636;
+  border-radius: 9999px;
+  border: 2px solid #000000;
   background: #ffffff;
-  padding: 6px;
+  padding: 4px;
+  list-style: none;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
 }
 
-.nav-button {
-  color: #1A3636;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 1.3rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 20px;
-  background: transparent;
-  border: none;
+.nav-tab {
   position: relative;
   z-index: 10;
+  display: block;
   cursor: pointer;
-  transition: color 0.3s ease;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-family: 'Rubik Dirt', cursive;
+  text-transform: uppercase;
+  color: #ffffff;
+  mix-blend-mode: difference;
 }
 
-.nav-button:hover {
-  color: #ffffff;
+.nav-tab-link {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
 }
 
-.nav-button.active {
-  color: #ffffff;
-  background: #1A3636;
-  border-radius: 20px;
+@media (min-width: 768px) {
+  .nav-tab {
+    padding: 12px 20px;
+    font-size: 16px;
+  }
 }
 
 .nav-cursor {
   position: absolute;
-  top: 6px;
-  transform: translateY(0);
-  height: calc(100% - 12px);
-  background: #1A3636;
-  border-radius: 20px;
-  z-index: 1;
+  z-index: 0;
+  height: 28px;
+  border-radius: 9999px;
+  background: #000000;
   pointer-events: none;
 }
 
-.get-started-button {
-  color: #1A3636;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1.3rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 25px;
-  background: #1A3636;
-  color: #D6BD98;
-  border: 2px solid #1A3636;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(26, 54, 54, 0.3);
+@media (min-width: 768px) {
+  .nav-cursor {
+    height: 48px;
+  }
 }
 
-.get-started-button:hover {
-  background: #D6BD98;
-  color: #1A3636;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(26, 54, 54, 0.4);
+.Btn {
+  position: relative;
+  width: 150px;
+  height: 55px;
+  border-radius: 45px;
+  border: none;
+  background-color: rgb(151, 95, 255);
+  color: white;
+  font-family: 'Rubik Dirt', cursive;
+  box-shadow: 0px 10px 10px rgb(210, 187, 253) inset,
+  0px 5px 10px rgba(5, 5, 5, 0.212),
+  0px -10px 10px rgb(124, 54, 255) inset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Btn::before {
+  width: 70%;
+  height: 2px;
+  position: absolute;
+  background-color: rgba(250, 250, 250, 0.678);
+  content: "";
+  filter: blur(1px);
+  top: 7px;
+  border-radius: 50%;
+}
+
+.Btn::after {
+  width: 70%;
+  height: 2px;
+  position: absolute;
+  background-color: rgba(250, 250, 250, 0.137);
+  content: "";
+  filter: blur(1px);
+  bottom: 7px;
+  border-radius: 50%;
+}
+
+.Btn:hover {
+  animation: jello-horizontal 0.9s both;
+}
+
+@keyframes jello-horizontal {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    transform: scale3d(0.75, 1.25, 1);
+  }
+
+  50% {
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  75% {
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+/* Navigation positioning styles */
+.nav-container {
+  position: fixed;
+  top: 2rem;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-container {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  z-index: 50;
+}
+
+/* Responsive positioning for mobile */
+@media (max-width: 768px) {
+  .nav-container {
+    top: 1rem;
+  }
+  
+  .button-container {
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .Btn {
+    width: 120px;
+    height: 45px;
+    font-size: 0.9rem;
+  }
+  
+  .nav-container {
+    top: 0.5rem;
+  }
+  
+  .button-container {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+}
+
+/* Sliding Navigation Styles */
+.nav-tab-link {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 @media (max-width: 768px) {
   .nav-container {
-    padding: 1rem;
-    height: 60px;
+    padding: 1.5rem 1rem;
+    height: 80px;
     width: 100%;
     justify-content: space-between;
   }
@@ -120,18 +240,17 @@
     font-size: 1.5rem;
   }
   
-  .nav-buttons {
-    gap: 0;
+  .nav-tabs {
+    padding: 2px;
   }
   
-  .nav-button {
-    padding: 0.5rem 1rem;
-    font-size: 1.1rem;
+  .nav-tab {
+    padding: 4px 8px;
+    font-size: 10px;
   }
   
   .nav-cursor {
-    top: 4px;
-    height: calc(100% - 8px);
+    height: 24px;
   }
   
   .get-started-button {
@@ -143,21 +262,19 @@
 @media (max-width: 480px) {
   .nav-container {
     flex-direction: row;
-    height: 60px;
-    padding: 0.5rem 1rem;
+    height: 70px;
+    padding: 1rem;
     width: 100%;
     justify-content: space-between;
   }
   
-  .nav-buttons {
-    gap: 0;
-    flex-wrap: nowrap;
-    justify-content: flex-end;
+  .nav-tabs {
+    padding: 2px;
   }
   
-  .nav-button {
-    padding: 0.3rem 0.6rem;
-    font-size: 0.9rem;
+  .nav-tab {
+    padding: 3px 6px;
+    font-size: 8px;
   }
   
   .nav-logo {
@@ -165,12 +282,149 @@
   }
   
   .nav-cursor {
-    top: 3px;
-    height: calc(100% - 6px);
+    height: 20px;
   }
   
   .get-started-button {
     font-size: 0.9rem;
     padding: 0.3rem 0.6rem;
   }
+}
+
+/* Tailwind CSS equivalent classes for exact reference specs */
+.relative {
+  position: relative;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.flex {
+  display: flex;
+}
+
+.w-fit {
+  width: fit-content;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.border-2 {
+  border-width: 2px;
+}
+
+.border-black {
+  border-color: #000000;
+}
+
+.border-white {
+  border-color: #ffffff;
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+.p-1 {
+  padding: 0.25rem;
+}
+
+.z-10 {
+  z-index: 10;
+}
+
+.z-0 {
+  z-index: 0;
+}
+
+.block {
+  display: block;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.py-1\.5 {
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.mix-blend-difference {
+  mix-blend-mode: difference;
+}
+
+.absolute {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+}
+
+.h-7 {
+  height: calc(100% - 4px);
+}
+
+.bg-black {
+  background-color: #000000;
+}
+
+/* Medium breakpoint and up */
+@media (min-width: 768px) {
+  .md\:px-5 {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+  
+  .md\:py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+  
+  .md\:text-base {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+  
+  .md\:h-12 {
+    height: calc(100% - 4px);
+  }
+}
+
+/* Reset default list styles for navigation */
+ul.relative {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Background equivalent for reference */
+.bg-neutral-100 {
+  background-color: #f5f5f5;
+}
+
+.py-20 {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
 }

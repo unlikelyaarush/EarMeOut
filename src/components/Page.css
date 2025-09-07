@@ -1,50 +1,74 @@
 .page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #1A3636 0%, #2D4A4A 25%, #4A5C5C 50%, #6B7A7A 75%, #D6BD98 100%);
-  padding-top: 70px;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .page-content {
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 4rem 2rem;
+  padding: 6rem 2rem;
   text-align: center;
+  width: 100%;
 }
 
 .page-title {
   font-family: 'Gloria Hallelujah', cursive;
-  font-size: 4rem;
-  color: #D6BD98;
+  font-size: 3.5rem;
+  color: #ffffff;
   margin-bottom: 2rem;
-  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 
 .page-body {
-  background: rgba(214, 189, 152, 0.1);
-  padding: 3rem;
-  border-radius: 20px;
-  border: 2px solid rgba(214, 189, 152, 0.3);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2.5rem;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .page-body p {
-  font-size: 1.2rem;
-  color: #ffffff;
-  line-height: 1.6;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.7;
   margin: 0;
+  font-weight: 300;
+}
+
+.back-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 25px;
+  border: 2px solid #ffffff;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-top: 2rem;
+}
+
+.back-button:hover {
+  background: #ffffff;
+  color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
 }
 
 @media (max-width: 768px) {
-  .page {
-    padding-top: 60px;
-  }
-  
   .page-content {
-    padding: 2rem 1rem;
+    padding: 4rem 1rem;
   }
   
   .page-title {
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
   
   .page-body {
@@ -54,11 +78,11 @@
 
 @media (max-width: 480px) {
   .page-content {
-    padding: 1rem;
+    padding: 3rem 1rem;
   }
   
   .page-title {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
   
   .page-body {

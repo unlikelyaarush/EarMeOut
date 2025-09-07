@@ -14,5 +14,5 @@ body {
 
 .App {
   min-height: 100vh;
-  background-color: #1A3636;
+  background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 25%, #9333EA 50%, #7C3AED 75%, #6D28D9 100%);
 }
