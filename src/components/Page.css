@@ -1,0 +1,67 @@
+.page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1A3636 0%, #2D4A4A 25%, #4A5C5C 50%, #6B7A7A 75%, #D6BD98 100%);
+  padding-top: 70px;
+}
+
+.page-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.page-title {
+  font-family: 'Gloria Hallelujah', cursive;
+  font-size: 4rem;
+  color: #D6BD98;
+  margin-bottom: 2rem;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.page-body {
+  background: rgba(214, 189, 152, 0.1);
+  padding: 3rem;
+  border-radius: 20px;
+  border: 2px solid rgba(214, 189, 152, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.page-body p {
+  font-size: 1.2rem;
+  color: #ffffff;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding-top: 60px;
+  }
+  
+  .page-content {
+    padding: 2rem 1rem;
+  }
+  
+  .page-title {
+    font-size: 3rem;
+  }
+  
+  .page-body {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-content {
+    padding: 1rem;
+  }
+  
+  .page-title {
+    font-size: 2.5rem;
+  }
+  
+  .page-body {
+    padding: 1.5rem;
+  }
+}
