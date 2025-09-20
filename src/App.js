@@ -4,7 +4,6 @@ import Homepage from './components/Homepage';
 import About from './components/About';
 import Team from './components/Team';
 import Chat from './components/Chat';
-import Donate from './components/Donate';
 import './App.css';
 
 function App() {
@@ -16,7 +15,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/team" element={<Team />} />
           <Route path="/chat" element={<Chat />} />
-          <Route path="/donate" element={<Donate />} />
+          {/* Donate page removed; Donate now links externally */}
         </Routes>
       </div>
     </Router>

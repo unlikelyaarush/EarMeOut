@@ -49,13 +49,18 @@ const Navigation = () => {
             >
               Team
             </NavTab>
-            <NavTab 
-              to="/donate" 
-              isActive={location.pathname === '/donate'}
-              setPosition={setPosition}
+            <a 
+              href="https://hcb.hackclub.com/donations/start/earmeout" 
+              target="_blank" 
+              rel="noopener" 
+              className={`nav-button ${location.pathname === '/donate' ? 'active' : ''}`}
+              onMouseEnter={(e) => {
+                const { width } = e.currentTarget.getBoundingClientRect();
+                setPosition({ left: e.currentTarget.offsetLeft, width, opacity: 1 });
+              }}
             >
               Donate
-            </NavTab>
+            </a>
 
             <SlidingCursor position={position} />
           </div>

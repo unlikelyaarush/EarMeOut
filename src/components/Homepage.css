@@ -11,6 +11,95 @@
   overflow: hidden;
 }
 
+/* Additional wide-screen breakpoints and stronger overrides */
+@media (min-width: 1440px) {
+  .buttons-container {
+    top: 70% !important;
+    left: 40% !important;
+  }
+}
+
+@media (min-width: 1536px) {
+  .buttons-container {
+    top: 70% !important;
+    left: 40% !important;
+  }
+}
+
+/* Ensure monitor rules override everything by placing them at the end */
+@media (min-width: 1600px) {
+  .buttons-container {
+    top: 70%;
+    left: 60%;
+  }
+}
+
+@media (min-width: 1920px) {
+  .buttons-container {
+    top: 70%;
+    left: 60%;
+  }
+}
+
+@media (min-width: 2560px) {
+  .buttons-container {
+    top: 70%;
+    left: 60%;
+  }
+}
+
+@media (min-width: 3440px) {
+  .buttons-container {
+    top: 70%;
+    left: 60%;
+  }
+}
+
+/* Force laptop positioning when not on wide monitors */
+@media (max-width: 1919px) {
+  .buttons-container {
+    top: 77% !important;
+    left: 37.75% !important;
+  }
+}
+
+/* Monitors 1920px and wider */
+@media (min-width: 1920px) {
+  .buttons-container {
+    top: 70% !important;
+    left: 40% !important;
+  }
+}
+
+/* Extra-wide monitors: re-center buttons horizontally */
+@media (min-width: 1600px) {
+  .buttons-container {
+    top: 70%;
+    left: 60%;
+  }
+}
+
+@media (min-width: 1920px) {
+  .buttons-container {
+    top: 70%;
+    left: 60%;
+  }
+}
+
+@media (min-width: 2560px) {
+  .buttons-container {
+    top: 70%;
+    left: 60%;
+  }
+}
+
+@media (min-width: 3440px) {
+  .buttons-container {
+    top: 70%;
+    left: 60%;
+  }
+}
+
 .content-container {
   display: flex;
   flex-direction: column;
@@ -22,13 +111,8 @@
 }
 
 .text-container {
-  transition: transform 0.6s ease-out;
-  transform: translateY(0);
   position: relative;
   z-index: 2;
-}
-
-.text-container.slide-up {
   transform: translateY(-180px);
 }
 
@@ -49,6 +133,7 @@
     padding: 0 20px;
   }
 }
+
 
 .bot-image-container {
   position: fixed;
@@ -71,6 +156,123 @@
 }
 
 
+.buttons-container {
+  position: fixed;
+  top: 77%;
+  left: 37.75%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.homepage-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.homepage-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px;
+  font-family: inherit;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  min-width: 160px;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.primary-button {
+  background: #1A3636;
+  color: white;
+  border: none;
+}
+
+.primary-button:hover {
+  background: #2a4a4a;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(26, 54, 54, 0.3);
+}
+
+.secondary-button {
+  background: #1A3636;
+  color: white;
+  border: none;
+  min-width: 160px;
+}
+
+.secondary-button:hover {
+  background: #2a4a4a;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(26, 54, 54, 0.3);
+}
+
+
+
+
+
+
+/* Responsive design for different screen sizes */
+@media (min-width: 1440px) {
+  .buttons-container {
+    position: fixed;
+    top: 77%;
+    left: 37.75%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .homepage-button {
+    min-width: 180px;
+    font-size: 1.3rem;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .buttons-container {
+    position: fixed;
+    top: 77%;
+    left: 37.75%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .homepage-button {
+    min-width: 160px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .buttons-container {
+    position: fixed;
+    top: 77%;
+    left: 37.75%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .homepage-button {
+    min-width: 140px;
+    font-size: 1.1rem;
+    padding: 10px 20px;
+  }
+  
+  .homepage-buttons {
+    gap: 15px;
+  }
+}
+
 @media (max-width: 768px) {
   .homepage {
     padding-top: 60px;
@@ -85,9 +287,31 @@
     padding: 0 20px;
   }
   
-  .text-container.slide-up {
+  .text-container {
     transform: translateY(-90px);
   }
+  
+  .bot-image {
+    max-width: 250px;
+  }
+  
+  .buttons-container {
+    position: fixed;
+    top: 77%;
+    left: 37.75%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .homepage-buttons {
+    gap: 15px;
+  }
+  
+  .homepage-button {
+    min-width: 120px;
+    font-size: 1.1rem;
+    padding: 10px 20px;
+  }
+  
   
   .bot-image-container {
     position: fixed;
@@ -98,9 +322,7 @@
     height: 100%;
   }
   
-  .bot-image {
-    max-width: 250px;
-  }
+  
 }
 
 @media (max-width: 480px) {
@@ -117,9 +339,31 @@
     padding: 0 15px;
   }
   
-  .text-container.slide-up {
+  .text-container {
     transform: translateY(-60px);
   }
+  
+  .bot-image {
+    max-width: 200px;
+  }
+  
+  .buttons-container {
+    position: fixed;
+    top: 77%;
+    left: 37.75%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .homepage-buttons {
+    gap: 10px;
+  }
+  
+  .homepage-button {
+    min-width: 100px;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+  
   
   .bot-image-container {
     position: fixed;
@@ -130,7 +374,5 @@
     height: 100%;
   }
   
-  .bot-image {
-    max-width: 200px;
-  }
+  
 }

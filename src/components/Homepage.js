@@ -6,28 +6,23 @@ import './Homepage.css';
 
 const Homepage = () => {
   const [textAnimationComplete, setTextAnimationComplete] = useState(false);
-  const [showImage, setShowImage] = useState(false);
+  const [showImage, setShowImage] = useState(true);
 
   const handleAnimationComplete = () => {
     console.log('Welcome text animation completed!');
     setTextAnimationComplete(true);
-    
-    // Wait for slide-up animation to complete (0.8s) then show image
-    setTimeout(() => {
-      setShowImage(true);
-    }, 800);
   };
 
   return (
     <div className="homepage">
       <Navigation />
       <div className="content-container">
-        <div className={`text-container ${textAnimationComplete ? 'slide-up' : ''}`}>
+        <div className="text-container">
           {!textAnimationComplete ? (
             <SplitText
               text="Welcome to EarMeOut"
               className="welcome-text"
-              delay={100}
+              delay={37}
               duration={0.6}
               ease="power3.out"
               splitType="chars"
@@ -40,7 +35,19 @@ const Homepage = () => {
               onLetterAnimationComplete={handleAnimationComplete}
             />
           ) : (
-            <h1 className="welcome-text">Welcome to EarMeOut</h1>
+            <h1 
+              className="welcome-text" 
+              style={{
+                textAlign: 'center',
+                overflow: 'hidden',
+                display: 'inline-block',
+                whiteSpace: 'normal',
+                wordWrap: 'break-word',
+                willChange: 'transform, opacity'
+              }}
+            >
+              Welcome to EarMeOut
+            </h1>
           )}
         </div>
         
@@ -57,6 +64,31 @@ const Homepage = () => {
               alt="EarMeOut Bot" 
               className="bot-image"
             />
+          </FadeContent>
+        )}
+        
+        {showImage && (
+          <FadeContent
+            delay={500}
+            duration={0.8}
+            threshold={0.1}
+            rootMargin="-50px"
+            className="buttons-container"
+          >
+            <div className="homepage-buttons">
+              <button 
+                className="homepage-button primary-button"
+                onClick={() => window.location.href = '/chat'}
+              >
+                Talk to Echo
+              </button>
+              <button 
+                className="homepage-button secondary-button"
+                onClick={() => window.open('https://hcb.hackclub.com/donations/start/earmeout', '_blank', 'noopener')}
+              >
+                Donate
+              </button>
+            </div>
           </FadeContent>
         )}
       </div>

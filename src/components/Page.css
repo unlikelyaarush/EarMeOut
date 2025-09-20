@@ -1,6 +1,6 @@
 .page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #1A3636 0%, #2D4A4A 25%, #4A5C5C 50%, #6B7A7A 75%, #D6BD98 100%);
+  background-color: #1A3636;
   padding-top: 70px;
 }
 
@@ -14,16 +14,16 @@
 .page-title {
   font-family: 'Gloria Hallelujah', cursive;
   font-size: 4rem;
-  color: #D6BD98;
+  color: white;
   margin-bottom: 2rem;
-  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
 }
 
 .page-body {
-  background: rgba(214, 189, 152, 0.1);
+  background: rgba(255, 255, 255, 0.1);
   padding: 3rem;
   border-radius: 20px;
-  border: 2px solid rgba(214, 189, 152, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
 }
 
@@ -32,6 +32,50 @@
   color: #ffffff;
   line-height: 1.6;
   margin: 0;
+}
+
+/* About page specific styles */
+.about-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.about-section {
+  margin-bottom: 3rem;
+}
+
+.about-intro {
+  font-size: 1.3rem;
+  color: #ffffff;
+  line-height: 1.7;
+  margin: 0;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.about-subtitle {
+  font-family: 'Gloria Hallelujah', cursive;
+  font-size: 2rem;
+  color: #D6BD98;
+  margin-bottom: 1rem;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.about-text {
+  font-size: 1.1rem;
+  color: #ffffff;
+  line-height: 1.6;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 10px;
+  border-left: 4px solid #D6BD98;
 }
 
 @media (max-width: 768px) {
@@ -50,6 +94,24 @@
   .page-body {
     padding: 2rem;
   }
+  
+  .about-content {
+    text-align: center;
+  }
+  
+  .about-intro {
+    font-size: 1.2rem;
+    padding: 1.5rem;
+  }
+  
+  .about-subtitle {
+    font-size: 1.8rem;
+  }
+  
+  .about-text {
+    font-size: 1rem;
+    padding: 1.2rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -63,5 +125,19 @@
   
   .page-body {
     padding: 1.5rem;
+  }
+  
+  .about-intro {
+    font-size: 1.1rem;
+    padding: 1.2rem;
+  }
+  
+  .about-subtitle {
+    font-size: 1.6rem;
+  }
+  
+  .about-text {
+    font-size: 0.95rem;
+    padding: 1rem;
   }
 }
