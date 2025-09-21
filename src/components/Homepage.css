@@ -11,92 +11,98 @@
   overflow: hidden;
 }
 
-/* Additional wide-screen breakpoints and stronger overrides */
-@media (min-width: 1440px) {
-  .buttons-container {
-    top: 70% !important;
-    left: 40% !important;
-  }
-}
+/* Adaptive positioning for laptop vs monitor displays */
+/* Automatically detects screen size and adjusts button positioning */
+/* Maintains consistent spacing between image and buttons across all screen sizes */
 
-@media (min-width: 1536px) {
-  .buttons-container {
-    top: 70% !important;
-    left: 40% !important;
-  }
-}
-
-/* Ensure monitor rules override everything by placing them at the end */
-@media (min-width: 1600px) {
-  .buttons-container {
-    top: 70%;
-    left: 60%;
-  }
-}
-
-@media (min-width: 1920px) {
-  .buttons-container {
-    top: 70%;
-    left: 60%;
-  }
-}
-
-@media (min-width: 2560px) {
-  .buttons-container {
-    top: 70%;
-    left: 60%;
-  }
-}
-
-@media (min-width: 3440px) {
-  .buttons-container {
-    top: 70%;
-    left: 60%;
-  }
-}
-
-/* Force laptop positioning when not on wide monitors */
+/* Laptop screens (up to 1919px) */
 @media (max-width: 1919px) {
   .buttons-container {
-    top: 77% !important;
-    left: 37.75% !important;
+    top: 82% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  
+  .bot-image-container {
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
   }
 }
 
-/* Monitors 1920px and wider */
+/* External monitors and large displays (1920px and above) */
 @media (min-width: 1920px) {
-  .buttons-container {
-    top: 70% !important;
-    left: 40% !important;
+  .homepage .buttons-container {
+    top: 45% !important;
+    left: 70% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  
+  .bot-image-container {
+    top: 40% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  
+  .homepage-button {
+    min-width: 200px;
+    font-size: 1.4rem;
+    padding: 14px 28px;
+  }
+  
+  .homepage-buttons {
+    gap: 25px;
   }
 }
 
-/* Extra-wide monitors: re-center buttons horizontally */
-@media (min-width: 1600px) {
-  .buttons-container {
-    top: 70%;
-    left: 60%;
-  }
-}
 
-@media (min-width: 1920px) {
-  .buttons-container {
-    top: 70%;
-    left: 60%;
-  }
-}
-
+/* Ultra-wide monitors (2560px and above) */
 @media (min-width: 2560px) {
-  .buttons-container {
-    top: 70%;
-    left: 60%;
+  .homepage .buttons-container {
+    top: 70% !important;
+    left: 70% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  
+  .bot-image-container {
+    top: 35% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  
+  .homepage-button {
+    min-width: 220px;
+    font-size: 1.5rem;
+    padding: 16px 32px;
+  }
+  
+  .homepage-buttons {
+    gap: 30px;
   }
 }
 
+/* 4K and ultra-wide monitors (3440px and above) */
 @media (min-width: 3440px) {
-  .buttons-container {
-    top: 70%;
-    left: 60%;
+  .homepage .buttons-container {
+    top: 68% !important;
+    left: 70% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  
+  .bot-image-container {
+    top: 32% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  
+  .homepage-button {
+    min-width: 240px;
+    font-size: 1.6rem;
+    padding: 18px 36px;
+  }
+  
+  .homepage-buttons {
+    gap: 35px;
   }
 }
 
@@ -137,8 +143,8 @@
 
 .bot-image-container {
   position: fixed;
-  top: 0%;
-  left: 0%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
@@ -147,6 +153,7 @@
   pointer-events: none;
   width: 100%;
   height: 100%;
+  transition: all 0.3s ease;
 }
 
 .bot-image {
@@ -159,13 +166,14 @@
 .buttons-container {
   position: fixed;
   top: 77%;
-  left: 37.75%;
+  left: 37.5%;
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1;
   pointer-events: auto;
+  transition: all 0.3s ease;
 }
 
 .homepage-buttons {
@@ -225,15 +233,9 @@
 
 
 
-/* Responsive design for different screen sizes */
-@media (min-width: 1440px) {
-  .buttons-container {
-    position: fixed;
-    top: 77%;
-    left: 37.75%;
-    transform: translate(-50%, -50%);
-  }
-  
+/* Responsive design for laptop screens */
+/* Button sizing adjustments for different laptop screen sizes */
+@media (min-width: 1440px) and (max-width: 1919px) {
   .homepage-button {
     min-width: 180px;
     font-size: 1.3rem;
@@ -241,13 +243,6 @@
 }
 
 @media (min-width: 1024px) and (max-width: 1439px) {
-  .buttons-container {
-    position: fixed;
-    top: 77%;
-    left: 37.75%;
-    transform: translate(-50%, -50%);
-  }
-  
   .homepage-button {
     min-width: 160px;
     font-size: 1.2rem;
@@ -255,13 +250,6 @@
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  .buttons-container {
-    position: fixed;
-    top: 77%;
-    left: 37.75%;
-    transform: translate(-50%, -50%);
-  }
-  
   .homepage-button {
     min-width: 140px;
     font-size: 1.1rem;
@@ -297,9 +285,9 @@
   
   .buttons-container {
     position: fixed;
-    top: 77%;
-    left: 37.75%;
-    transform: translate(-50%, -50%);
+    top: 77% !important;
+    left: 37.5%;
+    transform: translate(-50%, -50%) !important;
   }
   
   .homepage-buttons {
@@ -315,9 +303,9 @@
   
   .bot-image-container {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 45% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
     width: 100%;
     height: 100%;
   }
@@ -349,9 +337,9 @@
   
   .buttons-container {
     position: fixed;
-    top: 77%;
-    left: 37.75%;
-    transform: translate(-50%, -50%);
+    top: 77% !important;
+    left: 37.5%;
+    transform: translate(-50%, -50%) !important;
   }
   
   .homepage-buttons {
@@ -367,9 +355,9 @@
   
   .bot-image-container {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 45% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
     width: 100%;
     height: 100%;
   }
