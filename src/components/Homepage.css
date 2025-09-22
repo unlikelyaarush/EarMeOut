@@ -12,11 +12,9 @@
 }
 
 /* Adaptive positioning for laptop vs monitor displays */
-/* Automatically detects screen size and adjusts button positioning */
-/* Maintains consistent spacing between image and buttons across all screen sizes */
 
-/* Laptop screens (up to 1919px) */
-@media (max-width: 1919px) {
+/* Small laptops (up to 1366px) */
+@media (max-width: 1366px) {
   .buttons-container {
     top: 82% !important;
     left: 50% !important;
@@ -30,10 +28,25 @@
   }
 }
 
+/* Medium laptops (1367px to 1919px) */
+@media (min-width: 1367px) and (max-width: 1919px) {
+  .buttons-container {
+    top: 80% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  
+  .bot-image-container {
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+}
+
 /* External monitors and large displays (1920px and above) */
 @media (min-width: 1920px) {
-  .homepage .buttons-container {
-    top: 45% !important;
+  .buttons-container {
+    top: 55% !important;
     left: 70% !important;
     transform: translate(-50%, -50%) !important;
   }
@@ -55,12 +68,11 @@
   }
 }
 
-
 /* Ultra-wide monitors (2560px and above) */
 @media (min-width: 2560px) {
-  .homepage .buttons-container {
+  .buttons-container {
     top: 70% !important;
-    left: 70% !important;
+    left: 50% !important;
     transform: translate(-50%, -50%) !important;
   }
   
@@ -83,9 +95,9 @@
 
 /* 4K and ultra-wide monitors (3440px and above) */
 @media (min-width: 3440px) {
-  .homepage .buttons-container {
+  .buttons-container {
     top: 68% !important;
-    left: 70% !important;
+    left: 50% !important;
     transform: translate(-50%, -50%) !important;
   }
   
@@ -140,7 +152,6 @@
   }
 }
 
-
 .bot-image-container {
   position: fixed;
   top: 50%;
@@ -161,7 +172,6 @@
   height: auto;
   transition: transform 0.3s ease;
 }
-
 
 .buttons-container {
   position: fixed;
@@ -286,7 +296,7 @@
   .buttons-container {
     position: fixed;
     top: 77% !important;
-    left: 37.5%;
+    left: 37.5% !important;
     transform: translate(-50%, -50%) !important;
   }
   
@@ -338,7 +348,7 @@
   .buttons-container {
     position: fixed;
     top: 77% !important;
-    left: 37.5%;
+    left: 37.5% !important;
     transform: translate(-50%, -50%) !important;
   }
   
