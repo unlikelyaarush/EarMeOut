@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import './Navigation.css';
+import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Navigation = () => {
   const location = useLocation();
@@ -10,13 +12,18 @@ const Navigation = () => {
     width: 0,
     opacity: 0,
   });
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/');
+  };
 
   return (
     <nav className="navigation">
       <div className="nav-container">
-        <Link to="/" className="nav-logo">
-          EarMeOut
-        </Link>
+
         
         <div className="nav-center">
           <div 
@@ -66,9 +73,20 @@ const Navigation = () => {
           </div>
         </div>
         
-        <Link to="/chat" className="get-started-button">
-          Get Started
-        </Link>
+        <div className="nav-right">
+          {!user ? (
+            <Link to="/login" className="sign-in-button">
+              Sign In
+            </Link>
+          ) : (
+            <button onClick={handleLogout} className="sign-out-button">
+              Log Out
+            </button>
+          )}
+          <Link to="/chat" className="get-started-button">
+            Get Started
+          </Link>
+        </div>
       </div>
     </nav>
   );

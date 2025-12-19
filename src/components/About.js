@@ -1,10 +1,18 @@
 import React from 'react';
 import Navigation from './Navigation';
+import Iridescence from './Iridescence';
+import Footer from './Footer';
 import './Page.css';
 
 const About = () => {
   return (
     <div className="page">
+      <Iridescence
+        color={[0, .3, .5]}
+        mouseReact={false}
+        amplitude={0.1}
+        speed={.4}
+      />
       <Navigation />
       <div className="page-content">
         <h1 className="page-title">About Us</h1>
@@ -30,6 +38,7 @@ const About = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

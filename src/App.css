@@ -17,5 +17,7 @@ body {
 
 .App {
   min-height: 100vh;
-  background-color: #1A3636;
+  background-color: #21353C; /* Changed from #1A3636 */
+  display: flex;
+  flex-direction: column;
 }

@@ -1,7 +1,8 @@
 .page {
   min-height: 100vh;
-  background-color: #1A3636;
+  background-color: #21353C;
   padding-top: 70px;
+  position: relative;
 }
 
 .page-content {
@@ -9,6 +10,8 @@
   margin: 0 auto;
   padding: 4rem 2rem;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .page-title {
@@ -32,6 +35,14 @@
   color: #ffffff;
   line-height: 1.6;
   margin: 0;
+}
+
+/* Chat page specific styles */
+.chat-page-body {
+  background: transparent;
+  padding: 0;
+  border: none;
+  backdrop-filter: none;
 }
 
 /* About page specific styles */
