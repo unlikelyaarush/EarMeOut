@@ -18,13 +18,18 @@ const Login = () => {
         setError('');
         setLoading(true);
 
-        const { error } = await signIn(email, password);
+        const result = await signIn(email, password);
+        const { data, error } = result;
 
         if(error) {
-            setError(error.message);
+            if (error.message.includes('Invalid login credentials')) {
+                setError('Invalid email or password. Please try again.');
+            } else {
+                setError(error.message || 'An error occurred during login');
+            }
         }
         else {
-         navigate('/chat')
+            navigate('/chat');
         }
 
         setLoading(false);

@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import './Navigation.css';
+import React, { useRef, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import './Navigation.css';
 
 const Navigation = () => {
   const location = useLocation();
@@ -21,69 +21,21 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="navigation">
-      <div className="nav-container">
-
+    <nav className="navigation-new">
+      <div className="navigation-container">
+        <SlideTabs position={position} setPosition={setPosition} location={location} />
         
-        <div className="nav-center">
-          <div 
-            className="nav-buttons"
-            onMouseLeave={() => {
-              setPosition((pv) => ({
-                ...pv,
-                opacity: 0,
-              }));
-            }}
-          >
-            <NavTab 
-              to="/" 
-              isActive={location.pathname === '/'}
-              setPosition={setPosition}
-            >
-              Home
-            </NavTab>
-            <NavTab 
-              to="/about" 
-              isActive={location.pathname === '/about'}
-              setPosition={setPosition}
-            >
-              About
-            </NavTab>
-            <NavTab 
-              to="/team" 
-              isActive={location.pathname === '/team'}
-              setPosition={setPosition}
-            >
-              Team
-            </NavTab>
-            <a 
-              href="https://hcb.hackclub.com/donations/start/earmeout" 
-              target="_blank" 
-              rel="noopener" 
-              className={`nav-button ${location.pathname === '/donate' ? 'active' : ''}`}
-              onMouseEnter={(e) => {
-                const { width } = e.currentTarget.getBoundingClientRect();
-                setPosition({ left: e.currentTarget.offsetLeft, width, opacity: 1 });
-              }}
-            >
-              Donate
-            </a>
-
-            <SlidingCursor position={position} />
-          </div>
-        </div>
-        
-        <div className="nav-right">
+        <div className="navigation-right">
           {!user ? (
-            <Link to="/login" className="sign-in-button">
+            <Link to="/login" className="nav-sign-in">
               Sign In
             </Link>
           ) : (
-            <button onClick={handleLogout} className="sign-out-button">
+            <button onClick={handleLogout} className="nav-sign-in">
               Log Out
             </button>
           )}
-          <Link to="/chat" className="get-started-button">
+          <Link to="/chat" className="nav-get-started">
             Get Started
           </Link>
         </div>
@@ -92,38 +44,87 @@ const Navigation = () => {
   );
 };
 
-const NavTab = ({ children, to, isActive, setPosition }) => {
-  const ref = useRef(null);
-
+const SlideTabs = ({ position, setPosition, location }) => {
   return (
-    <Link
-      ref={ref}
-      to={to}
-      onMouseEnter={() => {
-        if (!ref?.current) return;
-
-        const { width } = ref.current.getBoundingClientRect();
-
-        setPosition({
-          left: ref.current.offsetLeft,
-          width,
-          opacity: 1,
-        });
+    <ul
+      onMouseLeave={() => {
+        setPosition((pv) => ({
+          ...pv,
+          opacity: 0,
+        }));
       }}
-      className={`nav-button ${isActive ? 'active' : ''}`}
+      className="slide-tabs"
     >
-      {children}
-    </Link>
+      <Tab setPosition={setPosition} to="/" isActive={location.pathname === '/'}>Home</Tab>
+      <Tab setPosition={setPosition} to="/about" isActive={location.pathname === '/about'}>About</Tab>
+      <Tab setPosition={setPosition} to="/team" isActive={location.pathname === '/team'}>Team</Tab>
+      <Tab setPosition={setPosition} href="https://hcb.hackclub.com/donations/start/earmeout" external>Donate</Tab>
+      <Cursor position={position} />
+    </ul>
   );
 };
 
-const SlidingCursor = ({ position }) => {
+const Tab = ({ children, setPosition, to, href, external, isActive }) => {
+  const ref = useRef(null);
+
+  const handleMouseEnter = () => {
+    if (!ref?.current) return;
+    const { width } = ref.current.getBoundingClientRect();
+    setPosition({
+      left: ref.current.offsetLeft,
+      width,
+      opacity: 1,
+    });
+  };
+
+  const className = "slide-tab";
+
+  if (external && href) {
+    return (
+      <li
+        ref={ref}
+        onMouseEnter={handleMouseEnter}
+        className={className}
+      >
+        <a href={href} target="_blank" rel="noopener noreferrer">
+          {children}
+        </a>
+      </li>
+    );
+  }
+
+  if (to) {
+    return (
+      <li
+        ref={ref}
+        onMouseEnter={handleMouseEnter}
+        className={className}
+      >
+        <Link to={to}>
+          {children}
+        </Link>
+      </li>
+    );
+  }
+
   return (
-    <motion.div
+    <li
+      ref={ref}
+      onMouseEnter={handleMouseEnter}
+      className={className}
+    >
+      {children}
+    </li>
+  );
+};
+
+const Cursor = ({ position }) => {
+  return (
+    <motion.li
       animate={{
         ...position,
       }}
-      className="nav-cursor"
+      className="slide-cursor"
     />
   );
 };

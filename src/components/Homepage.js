@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import SplitText from './SplitText';
 import FadeContent from './FadeContent';
 import Navigation from './Navigation';
-import Iridescence from './Iridescence';
+import MorningTide from './MorningTide';
 import Footer from './Footer';
 import './Homepage.css';
 
@@ -17,12 +17,7 @@ const Homepage = () => {
 
   return (
     <div className="homepage">
-      <Iridescence
-        color={[0, .3, .5]}
-        mouseReact={false}
-        amplitude={0.1}
-        speed={.4}
-      />
+      <MorningTide speed={1.0} />
       <Navigation />
       <div className="content-container">
         <div className="hero-content">
@@ -38,7 +33,7 @@ const Homepage = () => {
                 <span className="status-text">Always here, 24/7</span>
               </div>
             </FadeContent>
-            
+
             <div className="text-container">
               {!textAnimationComplete ? (
                 <SplitText
@@ -57,8 +52,8 @@ const Homepage = () => {
                   onLetterAnimationComplete={handleAnimationComplete}
                 />
               ) : (
-                <h1 
-                  className="hero-heading" 
+                <h1
+                  className="hero-heading"
                   style={{
                     textAlign: 'left',
                     overflow: 'hidden',
@@ -72,7 +67,7 @@ const Homepage = () => {
                 </h1>
               )}
             </div>
-            
+
             <FadeContent
               delay={800}
               duration={0.8}
@@ -84,7 +79,7 @@ const Homepage = () => {
                 Meet Echo, your free AI mental health companion. a safe, anonymous space to vent, reflect, and feel heard—whenever you need it.
               </p>
             </FadeContent>
-            
+
             {showImage && (
               <FadeContent
                 delay={1000}
@@ -94,13 +89,13 @@ const Homepage = () => {
                 className="buttons-container"
               >
                 <div className="homepage-buttons">
-                  <button 
+                  <button
                     className="homepage-button primary-button"
                     onClick={() => window.location.href = '/chat'}
                   >
                     Get Started &gt;
                   </button>
-                  <button 
+                  <button
                     className="homepage-button secondary-button"
                     onClick={() => window.open('https://hcb.hackclub.com/donations/start/earmeout', '_blank', 'noopener')}
                   >
@@ -110,7 +105,7 @@ const Homepage = () => {
               </FadeContent>
             )}
           </div>
-          
+
           <div className="hero-right">
             {showImage && (
               <FadeContent
@@ -121,9 +116,9 @@ const Homepage = () => {
                 className="bot-image-container"
               >
                 <div className="bot-image-wrapper">
-                  <img 
-                    src="/earmeout-bot.png" 
-                    alt="EarMeOut Bot" 
+                  <img
+                    src="/earmeout-bot.png"
+                    alt="EarMeOut Bot"
                     className="bot-image"
                   />
                 </div>
@@ -132,7 +127,7 @@ const Homepage = () => {
           </div>
         </div>
       </div>
-      
+
       <div className="info-section">
         <div className="info-content">
           <FadeContent
@@ -146,7 +141,7 @@ const Homepage = () => {
               Free Mental Health Services for Everyone, Everywhere
             </h2>
           </FadeContent>
-          
+
           <FadeContent
             delay={200}
             duration={0.8}
@@ -158,7 +153,7 @@ const Homepage = () => {
               At EarMeOut, we believe that mental health support should be accessible to everyone, regardless of location or financial situation. We provide free, 24/7 access to AI-powered mental health services around the world, helping millions of people find support, guidance, and a safe space to express themselves.
             </p>
           </FadeContent>
-          
+
           <div className="stats-container">
             <FadeContent
               delay={400}
@@ -171,7 +166,7 @@ const Homepage = () => {
                 <div className="stat-label">Users Served</div>
               </div>
             </FadeContent>
-            
+
             <FadeContent
               delay={500}
               duration={0.8}
@@ -183,7 +178,7 @@ const Homepage = () => {
                 <div className="stat-label">Countries</div>
               </div>
             </FadeContent>
-            
+
             <FadeContent
               delay={600}
               duration={0.8}
@@ -195,7 +190,7 @@ const Homepage = () => {
                 <div className="stat-label">Available</div>
               </div>
             </FadeContent>
-            
+
             <FadeContent
               delay={700}
               duration={0.8}

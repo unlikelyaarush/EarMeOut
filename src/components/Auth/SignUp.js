@@ -31,14 +31,20 @@ const Signup = () => {
         setLoading(true);
         
         try {
-            const { error: signUpError } = await signUp(email, password, {
+            const { data, error: signUpError } = await signUp(email, password, {
                 full_name: fullName,
             });
 
             if(signUpError) {
                 setError(signUpError.message || 'An error occurred during sign up');
-            } else {
+            } else if (data?.session) {
+                // User is automatically logged in
                 navigate('/chat');
+            } else if (data?.user) {
+                // User created but no session - this should not happen
+                setError('Account created but unable to log in. Please try logging in.');
+            } else {
+                setError('Signup failed. Please try again.');
             }
         } catch (err) {
             console.error('Signup error:', err);

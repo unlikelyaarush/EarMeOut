@@ -50,9 +50,10 @@ export const AuthProvider = ({children}) => {
                     data: metadata,
                 },
             });
+            
             return { data, error };
         } catch (error) {
-            console.error('Sign up error:', error);
+            console.error('Sign up exception:', error);
             return { data: null, error: { message: error.message || 'Sign up failed' } };
         }
     };

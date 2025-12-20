@@ -1,14 +1,21 @@
 const { randomUUID } = require('crypto');
 const express = require('express');
 const bodyParser = require('body-parser');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const OpenAI = require('openai');
 const cors = require('cors');
 const { createClient } = require('@supabase/supabase-js');
 
 require('dotenv').config();
 
-if (!process.env.GEMINI_API_KEY) {
-    console.error('Missing GEMINI_API_KEY. Please add it to your .env file before starting the server.');
+// Initialize OpenAI client for Hack Club AI
+// Hack Club AI uses OpenAI-compatible API
+const openai = new OpenAI({
+  apiKey: process.env.HACK_CLUB_AI_API_KEY || process.env.OPENAI_API_KEY,
+  baseURL: process.env.HACK_CLUB_AI_BASE_URL || 'https://api.hackclub.ai/v1',
+});
+
+if (!process.env.HACK_CLUB_AI_API_KEY && !process.env.OPENAI_API_KEY) {
+    console.error('Missing HACK_CLUB_AI_API_KEY or OPENAI_API_KEY. Please add it to your .env file before starting the server.');
     process.exit(1);
 }
 
@@ -16,14 +23,30 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-// Initialize Supabase client only if credentials are provided
+// Initialize Supabase clients
+// We need both: anon key for token verification, service role for database operations
 let supabase = null;
+let supabaseAdmin = null;
+
 if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
     try {
-        supabase = createClient(
+        // Admin client for database operations (bypasses RLS)
+        supabaseAdmin = createClient(
             process.env.SUPABASE_URL,
             process.env.SUPABASE_SERVICE_ROLE_KEY
         );
+        
+        // Anon client for token verification (respects RLS)
+        // Use anon key from env
+        const anonKey = process.env.SUPABASE_ANON_KEY;
+        if (!anonKey) {
+            console.warn('SUPABASE_ANON_KEY not found. Token verification may fail.');
+        }
+        supabase = createClient(
+            process.env.SUPABASE_URL,
+            anonKey || process.env.SUPABASE_SERVICE_ROLE_KEY // Fallback to service role if anon key not available
+        );
+        
         console.log('Supabase connected successfully');
     } catch (error) {
         console.warn('Supabase initialization failed:', error.message);
@@ -34,8 +57,8 @@ if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
     console.warn('To enable database storage, add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to your .env file');
 }
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const MODEL_ID = process.env.GEMINI_MODEL_ID || 'gemini-2.0-flash';
+// Use GPT-5.1 or fallback to gpt-4 if not available
+const MODEL_ID = process.env.AI_MODEL || 'gpt-5.1';
 
 const MAX_CONTEXT_MESSAGES = 12;
 
@@ -54,16 +77,23 @@ const verifyToken = async (req, res, next) => {
     }
 
     try {
+        // Use the anon client to verify the user token
         const { data: { user }, error } = await supabase.auth.getUser(token);
         
-        if (error || !user) {
-            return res.status(401).json({ error: 'Invalid token' });
+        if (error) {
+            console.error('Token verification error:', error.message);
+            return res.status(401).json({ error: 'Invalid token: ' + error.message });
+        }
+        
+        if (!user) {
+            return res.status(401).json({ error: 'User not found' });
         }
         
         req.user = user;
         next();
     } catch (error) {
-        res.status(401).json({ error: 'Token verification failed' });
+        console.error('Token verification exception:', error);
+        res.status(401).json({ error: 'Token verification failed: ' + error.message });
     }
 };
 
@@ -72,7 +102,7 @@ const conversations = new Map();
 
 // Get or create conversation
 const getOrCreateConversation = async (userId, conversationId) => {
-    if (!supabase) {
+    if (!supabaseAdmin) {
         // Fallback to in-memory storage
         if (conversationId && conversations.has(conversationId)) {
             return { conversationId, history: conversations.get(conversationId) };
@@ -83,7 +113,7 @@ const getOrCreateConversation = async (userId, conversationId) => {
     }
     
     if (conversationId) {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseAdmin
             .from('conversations')
             .select('*')
             .eq('id', conversationId)
@@ -97,7 +127,7 @@ const getOrCreateConversation = async (userId, conversationId) => {
     
     // Create new conversation
     const newConversationId = randomUUID();
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
         .from('conversations')
         .insert({
             id: newConversationId,
@@ -114,13 +144,13 @@ const getOrCreateConversation = async (userId, conversationId) => {
 
 // Save conversation history
 const saveConversation = async (conversationId, history) => {
-    if (!supabase) {
+    if (!supabaseAdmin) {
         // Fallback to in-memory storage
         conversations.set(conversationId, history);
         return;
     }
     
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
         .from('conversations')
         .update({ 
             history: history,
@@ -148,16 +178,35 @@ app.post("/message", verifyToken, async (req, res) => {
         // Add user message to history
         const nextHistory = [...history, { role: 'user', content: userMessage }].slice(-MAX_CONTEXT_MESSAGES);
 
-        const contents = nextHistory.map((entry) => ({
-            role: entry.role === 'assistant' ? 'model' : 'user',
-            parts: [{ text: entry.content }],
+        // Convert history to OpenAI format
+        const messages = nextHistory.map((entry) => ({
+            role: entry.role === 'assistant' ? 'assistant' : 'user',
+            content: entry.content,
         }));
 
-        const result = await genAI
-            .getGenerativeModel({ model: MODEL_ID })
-            .generateContent({ contents });
-        
-        const assistantText = result.response.text() || '(No response)';
+        // Call OpenAI API through Hack Club AI
+        let assistantText = '(No response)';
+        try {
+            const completion = await openai.chat.completions.create({
+                model: MODEL_ID,
+                messages: messages,
+                temperature: 0.7,
+                max_tokens: 1000,
+            });
+            
+            assistantText = completion.choices[0]?.message?.content || '(No response)';
+        } catch (apiError) {
+            console.error('OpenAI API Error:', apiError);
+            // Provide a helpful error message
+            if (apiError.message?.includes('model')) {
+                assistantText = 'Sorry, there was an issue with the AI model. Please try again.';
+            } else if (apiError.message?.includes('rate limit')) {
+                assistantText = 'The AI service is currently busy. Please try again in a moment.';
+            } else {
+                assistantText = 'Sorry, I encountered an error. Please try again.';
+            }
+            // Don't throw - return the error message to user instead
+        }
 
         // Update history with assistant response
         const updatedHistory = [...nextHistory, { role: 'assistant', content: assistantText }].slice(-MAX_CONTEXT_MESSAGES);
@@ -167,17 +216,31 @@ app.post("/message", verifyToken, async (req, res) => {
 
         res.json({ message: assistantText, conversationId });
     } catch (err) {
-        console.error('Error: ', err);
+        console.error('Error processing message:', err);
+        // Log full error details for debugging
+        console.error('Error stack:', err.stack);
+        console.error('Error details:', {
+            message: err.message,
+            name: err.name,
+            code: err.code
+        });
+        
+        // Return a user-friendly error message
+        const errorMessage = err.message || 'An error occurred while processing your message';
         res
             .status(500)
-            .json({ error: err.message || 'An error occurred while processing your message' });
+            .json({ error: errorMessage });
     }
 });
 
 // Get user's conversations
 app.get("/conversations", verifyToken, async (req, res) => {
+    if (!supabaseAdmin) {
+        return res.status(503).json({ error: 'Supabase not configured' });
+    }
+    
     try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseAdmin
             .from('conversations')
             .select('id, created_at, updated_at, history')
             .eq('user_id', req.user.id)
@@ -192,7 +255,7 @@ app.get("/conversations", verifyToken, async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Backend API server running on port ${PORT}`);
 });

@@ -1,12 +1,12 @@
 .homepage {
   width: 100%;
   min-height: 100vh;
-  background-color: #21353C;
+  background-color: transparent;
   display: flex;
   flex-direction: column;
   margin: 0;
   padding: 0;
-  padding-top: 70px;
+  padding-top: 80px;
   overflow-x: hidden;
   position: relative;
 }
@@ -141,9 +141,12 @@
 }
 
 @keyframes subtleFloat {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-8px);
   }
@@ -222,51 +225,51 @@
   .hero-heading {
     font-size: 7rem;
   }
-  
+
   .description-text {
     font-size: 2rem;
   }
-  
+
   .homepage-button {
     font-size: 1.6rem;
     padding: 18px 36px;
     min-width: 220px;
   }
-  
+
   .bot-image {
     width: 470px;
     max-width: none;
   }
-  
+
   .bot-image-wrapper {
     transform: translateY(-100px);
   }
-  
+
   .content-container {
     max-width: 1600px;
     padding: 0 8%;
   }
-  
+
   .hero-content {
     gap: 80px;
   }
-  
+
   .info-heading {
     font-size: 4.5rem;
   }
-  
+
   .info-description {
     font-size: 1.6rem;
   }
-  
+
   .stat-box {
     padding: 50px 25px;
   }
-  
+
   .stat-number {
     font-size: 3.5rem;
   }
-  
+
   .stat-label {
     font-size: 1.3rem;
   }
@@ -277,51 +280,51 @@
   .hero-heading {
     font-size: 8rem;
   }
-  
+
   .description-text {
     font-size: 2.2rem;
   }
-  
+
   .homepage-button {
     font-size: 1.8rem;
     padding: 20px 40px;
     min-width: 240px;
   }
-  
+
   .bot-image {
     width: 570px;
     max-width: none;
   }
-  
+
   .bot-image-wrapper {
     transform: translateY(-120px);
   }
-  
+
   .content-container {
     max-width: 1800px;
     padding: 0 10%;
   }
-  
+
   .hero-content {
     gap: 100px;
   }
-  
+
   .info-heading {
     font-size: 5rem;
   }
-  
+
   .info-description {
     font-size: 1.8rem;
   }
-  
+
   .stat-box {
     padding: 60px 30px;
   }
-  
+
   .stat-number {
     font-size: 4rem;
   }
-  
+
   .stat-label {
     font-size: 1.4rem;
   }
@@ -332,51 +335,51 @@
   .hero-heading {
     font-size: 9rem;
   }
-  
+
   .description-text {
     font-size: 2.5rem;
   }
-  
+
   .homepage-button {
     font-size: 2rem;
     padding: 22px 44px;
     min-width: 260px;
   }
-  
+
   .bot-image {
     width: 670px;
     max-width: none;
   }
-  
+
   .bot-image-wrapper {
     transform: translateY(-140px);
   }
-  
+
   .content-container {
     max-width: 2000px;
     padding: 0 12%;
   }
-  
+
   .hero-content {
     gap: 120px;
   }
-  
+
   .info-heading {
     font-size: 5.5rem;
   }
-  
+
   .info-description {
     font-size: 2rem;
   }
-  
+
   .stat-box {
     padding: 70px 35px;
   }
-  
+
   .stat-number {
     font-size: 4.5rem;
   }
-  
+
   .stat-label {
     font-size: 1.5rem;
   }
@@ -387,29 +390,29 @@
   .hero-heading {
     font-size: 6rem;
   }
-  
+
   .description-text {
     font-size: 1.25rem;
   }
-  
+
   .homepage-button {
     font-size: 1.25rem;
     padding: 16px 32px;
     min-width: 200px;
   }
-  
+
   .bot-image {
     max-width: 550px;
   }
-  
+
   .bot-image-wrapper {
     transform: translateY(-90px);
   }
-  
+
   .content-container {
     max-width: 1500px;
   }
-  
+
   .hero-content {
     gap: 70px;
   }
@@ -421,35 +424,35 @@
     gap: 40px;
     text-align: center;
   }
-  
+
   .hero-left {
     align-items: center;
     text-align: center;
     max-width: 100%;
   }
-  
+
   .hero-heading {
     text-align: center;
     font-size: 5rem;
   }
-  
+
   .description-text {
     text-align: center;
     font-size: 1.7rem;
   }
-  
+
   .buttons-container {
     justify-content: center;
   }
-  
+
   .homepage-buttons {
     justify-content: center;
   }
-  
+
   .bot-image {
     max-width: 400px;
   }
-  
+
   .bot-image-wrapper {
     transform: translateY(-60px);
   }
@@ -459,34 +462,34 @@
   .homepage {
     padding-top: 60px;
   }
-  
+
   .content-container {
     height: calc(100vh - 60px);
     padding: 0 20px;
   }
-  
+
   .hero-heading {
     font-size: 4rem;
   }
-  
+
   .description-text {
     font-size: 1.5rem;
   }
-  
+
   .homepage-button {
     min-width: 150px;
     font-size: 1.7rem;
     padding: 14px 28px;
   }
-  
+
   .bot-image {
     max-width: 300px;
   }
-  
+
   .bot-image-wrapper {
     transform: translateY(-40px);
   }
-  
+
   .homepage-buttons {
     gap: 12px;
   }
@@ -496,26 +499,26 @@
   .hero-heading {
     font-size: 3rem;
   }
-  
+
   .description-text {
     font-size: 1.3rem;
   }
-  
+
   .homepage-button {
     min-width: 140px;
     font-size: 0.95rem;
     padding: 14px 24px;
   }
-  
+
   .homepage-buttons {
     gap: 10px;
     flex-wrap: wrap;
   }
-  
+
   .bot-image {
     max-width: 250px;
   }
-  
+
   .bot-image-wrapper {
     transform: translateY(-20px);
   }
@@ -605,15 +608,15 @@
   .info-section {
     padding: 140px 8% 200px;
   }
-  
+
   .info-description {
     margin-bottom: 330px;
   }
-  
+
   .info-content {
     max-width: 1400px;
   }
-  
+
   .stats-container {
     max-width: 1200px;
     gap: 40px;
@@ -625,15 +628,15 @@
   .info-section {
     padding: 160px 10% 220px;
   }
-  
+
   .info-description {
     margin-bottom: 350px;
   }
-  
+
   .info-content {
     max-width: 1600px;
   }
-  
+
   .stats-container {
     max-width: 1400px;
     gap: 50px;
@@ -645,15 +648,15 @@
   .info-section {
     padding: 180px 12% 250px;
   }
-  
+
   .info-description {
     margin-bottom: 370px;
   }
-  
+
   .info-content {
     max-width: 1800px;
   }
-  
+
   .stats-container {
     max-width: 1600px;
     gap: 60px;
@@ -664,11 +667,11 @@
   .info-heading {
     font-size: 3rem;
   }
-  
+
   .info-description {
     font-size: 1.2rem;
   }
-  
+
   .stats-container {
     grid-template-columns: repeat(2, 1fr);
     gap: 25px;
@@ -679,29 +682,29 @@
   .info-section {
     padding: 100px 20px 140px;
   }
-  
+
   .info-heading {
     font-size: 2.5rem;
   }
-  
+
   .info-description {
     font-size: 1.1rem;
     margin-bottom: 200px;
   }
-  
+
   .stats-container {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
-  
+
   .stat-box {
     padding: 30px 15px;
   }
-  
+
   .stat-number {
     font-size: 2.5rem;
   }
-  
+
   .stat-label {
     font-size: 1rem;
   }
@@ -711,29 +714,29 @@
   .info-section {
     padding: 80px 15px 120px;
   }
-  
+
   .info-heading {
     font-size: 2rem;
   }
-  
+
   .info-description {
     font-size: 1rem;
     margin-bottom: 180px;
   }
-  
+
   .stats-container {
     grid-template-columns: 1fr;
     gap: 15px;
   }
-  
+
   .stat-box {
     padding: 25px 15px;
   }
-  
+
   .stat-number {
     font-size: 2rem;
   }
-  
+
   .stat-label {
     font-size: 0.9rem;
   }
