@@ -24,6 +24,8 @@ const Login = () => {
         if (error) {
             if (error.message.includes('Invalid login credentials')) {
                 setError('Invalid email or password. Please try again.');
+            } else if (error.message.includes('Email not confirmed') || error.message.includes('email')) {
+                setError('Please confirm your email address before logging in. Check your inbox for the confirmation email.');
             } else {
                 setError(error.message || 'An error occurred during login');
             }

@@ -8,6 +8,7 @@ import Team from './components/Team';
 import Chat from './components/Chat';
 import Login from './components/Auth/Login';
 import Signup from './components/Auth/SignUp';
+import EmailConfirmation from './components/Auth/EmailConfirmation';
 import './App.css';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
             <Route path="/team" element={<Team />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/confirm-email" element={<EmailConfirmation />} />
             <Route 
               path="/chat" 
               element={

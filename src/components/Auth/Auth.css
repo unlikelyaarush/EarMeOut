@@ -99,6 +99,33 @@
   border: 1px solid #fcc;
 }
 
+.auth-success {
+  background: #efe;
+  color: #3a3;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #cfc;
+  text-align: center;
+}
+
+.auth-success h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #2a8;
+}
+
+.auth-success p {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.auth-message {
+  text-align: center;
+  padding: 16px;
+  color: #2C2C2C;
+}
+
 .auth-switch {
   text-align: center;
   margin-top: 20px;

@@ -14,6 +14,7 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
   const { signUp } = useAuth();
   const navigate = useNavigate();
 
@@ -44,11 +45,11 @@ const Signup = () => {
       if (signUpError) {
         setError(signUpError.message || 'An error occurred during sign up');
       } else if (data?.session) {
-        // User is automatically logged in
+        // User is automatically logged in (email confirmation disabled)
         navigate('/chat');
       } else if (data?.user) {
-        // User created but no session - this should not happen
-        setError('Account created but unable to log in. Please try logging in.');
+        // User created but email confirmation required
+        setEmailSent(true);
       } else {
         setError('Signup failed. Please try again.');
       }
@@ -65,8 +66,19 @@ const Signup = () => {
       <MorningTide />
       <div className="auth-card">
         <h2>Sign up for EarMeOut</h2>
-        {error && <div className="auth-error">{error}</div>}
-        <form onSubmit={handleSubmit}>
+        {emailSent ? (
+          <div className="auth-success">
+            <h3>Check your email!</h3>
+            <p>We've sent a confirmation email to <strong>{email}</strong>.</p>
+            <p>Please click the confirmation link in the email to activate your account.</p>
+            <p className="auth-switch">
+              Already confirmed? <a href="/login">Login</a>
+            </p>
+          </div>
+        ) : (
+          <>
+            {error && <div className="auth-error">{error}</div>}
+            <form onSubmit={handleSubmit}>
           <div className="auth-field">
             <label htmlFor="fullName">Full Name</label>
             <input
@@ -161,10 +173,12 @@ const Signup = () => {
           <button type="submit" disabled={loading || !acceptedTerms} className="auth-button">
             {loading ? 'Signing up...' : 'Sign up'}
           </button>
-        </form>
-        <p className="auth-switch">
-          Already have an account? <a href="/login">Login</a>
-        </p>
+            </form>
+            <p className="auth-switch">
+              Already have an account? <a href="/login">Login</a>
+            </p>
+          </>
+        )}
       </div>
       <Footer />
     </div>
