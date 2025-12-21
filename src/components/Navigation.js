@@ -24,7 +24,7 @@ const Navigation = () => {
     <nav className="navigation-new">
       <div className="navigation-container">
         <SlideTabs position={position} setPosition={setPosition} location={location} />
-        
+
         <div className="navigation-right">
           {!user ? (
             <Link to="/login" className="nav-sign-in">
@@ -35,8 +35,9 @@ const Navigation = () => {
               Log Out
             </button>
           )}
-          <Link to="/chat" className="nav-get-started">
-            Get Started
+          <Link to="/chat" className="u-btn">
+            <span className="u-btn__top">Get Started</span>
+            <span className="u-btn__bottom"></span>
           </Link>
         </div>
       </div>

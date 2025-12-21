@@ -1,67 +1,62 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import Iridescence from '../Iridescence';
+import MorningTide from '../MorningTide';
 import Footer from '../Footer';
 import './Auth.css';
 
 const Signup = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [fullName, setFullName] = useState('');
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
-    const { signUp } = useAuth();
-    const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { signUp } = useAuth();
+  const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError('');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
 
-        if(password !== confirmPassword) {
-            setError('Passwords do not match');
-            return;
-        }
-        if(password.length < 6) {
-            setError('Password must be at least 6 characters');
-            return;
-        }
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
 
-        setLoading(true);
-        
-        try {
-            const { data, error: signUpError } = await signUp(email, password, {
-                full_name: fullName,
-            });
+    setLoading(true);
 
-            if(signUpError) {
-                setError(signUpError.message || 'An error occurred during sign up');
-            } else if (data?.session) {
-                // User is automatically logged in
-                navigate('/chat');
-            } else if (data?.user) {
-                // User created but no session - this should not happen
-                setError('Account created but unable to log in. Please try logging in.');
-            } else {
-                setError('Signup failed. Please try again.');
-            }
-        } catch (err) {
-            console.error('Signup error:', err);
-            setError('An unexpected error occurred. Please try again.');
-        } finally {
-            setLoading(false);
-        }
-    };
+    try {
+      const { data, error: signUpError } = await signUp(email, password, {
+        full_name: fullName,
+      });
 
-    return(
-     <div className="auth-container">
-      <Iridescence
-        color={[0, .3, .5]}
-        mouseReact={false}
-        amplitude={0.1}
-        speed={.4}
-      />
+      if (signUpError) {
+        setError(signUpError.message || 'An error occurred during sign up');
+      } else if (data?.session) {
+        // User is automatically logged in
+        navigate('/chat');
+      } else if (data?.user) {
+        // User created but no session - this should not happen
+        setError('Account created but unable to log in. Please try logging in.');
+      } else {
+        setError('Signup failed. Please try again.');
+      }
+    } catch (err) {
+      console.error('Signup error:', err);
+      setError('An unexpected error occurred. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="auth-container">
+      <MorningTide />
       <div className="auth-card">
         <h2>Sign up for EarMeOut</h2>
         {error && <div className="auth-error">{error}</div>}
