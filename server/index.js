@@ -3,12 +3,26 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const OpenAI = require('openai');
 const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 const { createClient } = require('@supabase/supabase-js');
 
 require('dotenv').config();
 
+// Load system prompt for Gemini
+let SYSTEM_PROMPT = '';
+try {
+    const promptPath = path.join(__dirname, '..', 'prompts', 'prompt.gemini.txt');
+    SYSTEM_PROMPT = fs.readFileSync(promptPath, 'utf8').trim();
+    console.log('System prompt loaded successfully');
+} catch (error) {
+    console.warn('Could not load system prompt file:', error.message);
+    console.warn('Using default system prompt');
+    SYSTEM_PROMPT = 'You are Echo, a compassionate and empathetic AI mental health companion. Provide a safe, non-judgmental space for users to express themselves.';
+}
+
 // Initialize OpenAI client for Hack Club AI
-// Hack Club AI uses OpenAI-compatible API
+// Hack Club AI uses OpenAI-compatible API and can proxy to Gemini
 const openai = new OpenAI({
   apiKey: process.env.HACK_CLUB_AI_API_KEY || process.env.OPENAI_API_KEY,
   baseURL: process.env.HACK_CLUB_AI_BASE_URL || 'https://api.hackclub.ai/v1',
@@ -178,13 +192,16 @@ app.post("/message", verifyToken, async (req, res) => {
         // Add user message to history
         const nextHistory = [...history, { role: 'user', content: userMessage }].slice(-MAX_CONTEXT_MESSAGES);
 
-        // Convert history to OpenAI format
-        const messages = nextHistory.map((entry) => ({
-            role: entry.role === 'assistant' ? 'assistant' : 'user',
-            content: entry.content,
-        }));
+        // Convert history to OpenAI format and add system prompt
+        const messages = [
+            { role: 'system', content: SYSTEM_PROMPT },
+            ...nextHistory.map((entry) => ({
+                role: entry.role === 'assistant' ? 'assistant' : 'user',
+                content: entry.content,
+            }))
+        ];
 
-        // Call OpenAI API through Hack Club AI
+        // Call OpenAI API through Hack Club AI (which proxies to Gemini)
         let assistantText = '(No response)';
         try {
             const completion = await openai.chat.completions.create({

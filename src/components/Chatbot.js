@@ -51,8 +51,67 @@ const Chatbot = () => {
     }
   }, [messages]);
 
+  // Split long messages into chunks for texting-like experience
+  const splitMessageIntoChunks = (text, maxChunkLength = 200) => {
+    if (text.length <= maxChunkLength) {
+      return [text];
+    }
+
+    // Try to split by sentences first
+    const sentences = text.match(/[^.!?]+[.!?]+[\])'"`'']*|.+/g) || [text];
+    const chunks = [];
+    let currentChunk = '';
+
+    for (const sentence of sentences) {
+      const trimmedSentence = sentence.trim();
+      if (!trimmedSentence) continue;
+
+      // If adding this sentence would exceed the limit, save current chunk and start new one
+      if (currentChunk && (currentChunk.length + trimmedSentence.length + 1) > maxChunkLength) {
+        chunks.push(currentChunk.trim());
+        currentChunk = trimmedSentence;
+      } else {
+        currentChunk += (currentChunk ? ' ' : '') + trimmedSentence;
+      }
+
+      // If a single sentence is too long, split it by character limit
+      if (currentChunk.length > maxChunkLength) {
+        while (currentChunk.length > maxChunkLength) {
+          chunks.push(currentChunk.substring(0, maxChunkLength).trim());
+          currentChunk = currentChunk.substring(maxChunkLength).trim();
+        }
+      }
+    }
+
+    // Add remaining chunk
+    if (currentChunk.trim()) {
+      chunks.push(currentChunk.trim());
+    }
+
+    return chunks.length > 0 ? chunks : [text];
+  };
+
   const appendMessage = (role, text) => {
     setMessages(prev => [...prev, { role, text }]);
+  };
+
+  const appendMessageChunked = async (role, text) => {
+    // Only chunk assistant messages that are long enough
+    if (role === 'assistant' && text.length > 150) {
+      const chunks = splitMessageIntoChunks(text);
+      
+      // Add first chunk immediately
+      appendMessage(role, chunks[0]);
+      
+      // Add remaining chunks with a delay to simulate texting
+      for (let i = 1; i < chunks.length; i++) {
+        await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 400)); // 800-1200ms delay
+        appendMessage(role, chunks[i]);
+      }
+    } else {
+      // For short messages or user messages, add immediately
+      appendMessage(role, text);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -72,14 +131,14 @@ const Chatbot = () => {
         : { message };
 
       if (!session) {
-        appendMessage('assistant', 'You are not logged in. Please log in to continue.');
+        await appendMessageChunked('assistant', 'You are not logged in. Please log in to continue.');
         setIsLoading(false);
         return;
       }
 
       if (!session.access_token) {
         console.error('No access token in session:', session);
-        appendMessage('assistant', 'Session error. Please log out and log back in.');
+        await appendMessageChunked('assistant', 'Session error. Please log out and log back in.');
         setIsLoading(false);
         return;
       }
@@ -96,7 +155,7 @@ const Chatbot = () => {
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         if (response.status === 401) {
-          appendMessage('assistant', 'Your session has expired. Please log in again.');
+          await appendMessageChunked('assistant', 'Your session has expired. Please log in again.');
           setIsLoading(false);
           return;
         }
@@ -110,11 +169,11 @@ const Chatbot = () => {
         setConversationId(data.conversationId);
         sessionStorage.setItem('conversationId', data.conversationId);
       }
-      appendMessage('assistant', data.message ?? '(No response)');
+      await appendMessageChunked('assistant', data.message ?? '(No response)');
     } catch (error) {
       console.error('Chatbot error:', error);
       const errorMessage = error.message || 'Sorry, something went wrong. Please try again.';
-      appendMessage('assistant', errorMessage);
+      await appendMessageChunked('assistant', errorMessage);
     } finally {
       setIsLoading(false);
     }

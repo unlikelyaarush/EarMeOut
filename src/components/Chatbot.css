@@ -215,6 +215,23 @@
   gap: 0.75rem;
   animation: messageFadeIn 0.3s ease-out;
   max-width: 80%;
+  margin-bottom: 0.75rem;
+}
+
+/* Reduce spacing between consecutive assistant messages for texting effect */
+.chatbot-modern__message--assistant + .chatbot-modern__message--assistant {
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Hide avatar for consecutive assistant messages to make it look more like texting */
+.chatbot-modern__message--assistant + .chatbot-modern__message--assistant .chatbot-modern__message-avatar {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
 }
 
 .chatbot-modern__message--user {
