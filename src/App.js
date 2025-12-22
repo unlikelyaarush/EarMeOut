@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Homepage from './components/Homepage';
-import About from './components/About';
+import Events from './components/Events';
 import Team from './components/Team';
 import Chat from './components/Chat';
 import Login from './components/Auth/Login';
@@ -18,7 +18,7 @@ function App() {
         <div className="App">
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path="/about" element={<About />} />
+            <Route path="/events" element={<Events />} />
             <Route path="/team" element={<Team />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />

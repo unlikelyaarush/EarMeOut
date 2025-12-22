@@ -1,6 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import './Chatbot.css';
 import { useAuth } from '../contexts/AuthContext';
+import { ArrowUp, Paperclip } from 'lucide-react';
+import { cn } from '../lib/utils';
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
@@ -10,7 +12,35 @@ const Chatbot = () => {
     return sessionStorage.getItem('conversationId') || null;
   });
   const chatLogRef = useRef(null);
+  const textareaRef = useRef(null);
   const { session } = useAuth();
+
+  // Auto-resize textarea
+  const adjustHeight = useCallback((reset) => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    if (reset) {
+      textarea.style.height = '60px';
+      return;
+    }
+
+    textarea.style.height = '60px';
+    const newHeight = Math.max(60, Math.min(textarea.scrollHeight, 200));
+    textarea.style.height = `${newHeight}px`;
+  }, []);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = '60px';
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => adjustHeight();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [adjustHeight]);
 
   useEffect(() => {
     if (chatLogRef.current) {
@@ -33,6 +63,7 @@ const Chatbot = () => {
 
     appendMessage('you', message);
     setInputValue('');
+    adjustHeight(true);
     setIsLoading(true);
 
     try {
@@ -40,7 +71,6 @@ const Chatbot = () => {
         ? { message, conversationId }
         : { message };
 
-      // Debug: Check if session and token exist
       if (!session) {
         appendMessage('assistant', 'You are not logged in. Please log in to continue.');
         setIsLoading(false);
@@ -70,7 +100,6 @@ const Chatbot = () => {
           setIsLoading(false);
           return;
         }
-        // Show the actual error message from the server
         const errorMsg = errorData.error || `Request failed with status ${response.status}`;
         console.error('Server error:', errorMsg);
         throw new Error(errorMsg);
@@ -84,7 +113,6 @@ const Chatbot = () => {
       appendMessage('assistant', data.message ?? '(No response)');
     } catch (error) {
       console.error('Chatbot error:', error);
-      // Show more specific error message
       const errorMessage = error.message || 'Sorry, something went wrong. Please try again.';
       appendMessage('assistant', errorMessage);
     } finally {
@@ -92,57 +120,156 @@ const Chatbot = () => {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (inputValue.trim() && !isLoading) {
+        handleSubmit(e);
+      }
+    }
+  };
+
   return (
-    <div className="chatbot">
-      <header className="chatbot__header">
-        <h1>EarMeOut</h1>
-        <p>Ask anything and the assistant will respond.</p>
-      </header>
-      <section 
-        ref={chatLogRef}
-        className="chatbot__log" 
-        aria-live="polite"
-      >
-        {messages.length === 0 && (
-          <div className="chatbot__welcome">
-            <p>Start a conversation by typing a message below.</p>
+    <div className="chatbot-modern">
+      <div className="chatbot-modern__container">
+        <header className="chatbot-modern__header">
+          <div className="chatbot-modern__header-content">
+            <div className="chatbot-modern__header-avatar">
+              <img 
+                src="/earmeout-bot.png" 
+                alt="Echo" 
+                className="chatbot-modern__avatar-image"
+              />
+            </div>
+            <div className="chatbot-modern__header-text">
+              <h1 className="chatbot-modern__title">Echo</h1>
+              <p className="chatbot-modern__subtitle">Your supportive listener - here to help</p>
+            </div>
           </div>
-        )}
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`chatbot__message ${
-              msg.role === 'assistant' ? 'chatbot__message--assistant' : 'chatbot__message--user'
-            }`}
-          >
-            <p className="chatbot__text">{msg.text}</p>
+        </header>
+
+        <section 
+          ref={chatLogRef}
+          className="chatbot-modern__messages" 
+          aria-live="polite"
+        >
+          {messages.length === 0 && (
+            <div className="chatbot-modern__welcome">
+              <div className="chatbot-modern__welcome-content">
+                <div className="chatbot-modern__welcome-avatar">
+                  <img 
+                    src="/earmeout-bot.png" 
+                    alt="Echo" 
+                    className="chatbot-modern__avatar-image chatbot-modern__avatar-image--large"
+                  />
+                </div>
+                <h2>Hi there! I'm Echo 👋</h2>
+                <p>I'm here to listen and support you. Think of me as a caring friend who's always available when you need to talk. Share whatever's on your mind - there's no judgment here, just understanding.</p>
+                <div className="chatbot-modern__suggestions">
+                  <p className="chatbot-modern__suggestions-title">We can talk about:</p>
+                  <ul>
+                    <li>How you're feeling today</li>
+                    <li>Things that are worrying you</li>
+                    <li>Stress management techniques</li>
+                    <li>Building healthy coping strategies</li>
+                    <li>Any thoughts or emotions you'd like to explore</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {messages.map((msg, index) => (
+            <div
+              key={index}
+              className={cn(
+                'chatbot-modern__message',
+                msg.role === 'assistant' 
+                  ? 'chatbot-modern__message--assistant' 
+                  : 'chatbot-modern__message--user'
+              )}
+            >
+              {msg.role === 'assistant' && (
+                <div className="chatbot-modern__message-avatar">
+                  <img 
+                    src="/earmeout-bot.png" 
+                    alt="Echo" 
+                    className="chatbot-modern__avatar-image chatbot-modern__avatar-image--small"
+                  />
+                </div>
+              )}
+              <div className="chatbot-modern__message-content">
+                <p className="chatbot-modern__message-text">{msg.text}</p>
+              </div>
+            </div>
+          ))}
+          
+          {isLoading && (
+            <div className="chatbot-modern__message chatbot-modern__message--assistant chatbot-modern__message--loading">
+              <div className="chatbot-modern__message-avatar">
+                <img 
+                  src="/earmeout-bot.png" 
+                  alt="Echo" 
+                  className="chatbot-modern__avatar-image chatbot-modern__avatar-image--small"
+                />
+              </div>
+              <div className="chatbot-modern__message-content">
+                <div className="chatbot-modern__typing-indicator">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+            </div>
+          )}
+        </section>
+
+        <form className="chatbot-modern__form" onSubmit={handleSubmit} autoComplete="off">
+          <div className="chatbot-modern__input-wrapper">
+            <textarea
+              ref={textareaRef}
+              id="user-input"
+              name="message"
+              placeholder="Type your message here..."
+              value={inputValue}
+              onChange={(e) => {
+                setInputValue(e.target.value);
+                adjustHeight();
+              }}
+              onKeyDown={handleKeyDown}
+              disabled={isLoading}
+              required
+              rows={1}
+              className="chatbot-modern__textarea"
+              style={{ overflow: 'hidden' }}
+            />
+            
+            <div className="chatbot-modern__form-actions">
+              <button
+                type="button"
+                className="chatbot-modern__attach-btn"
+                aria-label="Attach file"
+                title="Attach file"
+              >
+                <Paperclip size={18} />
+              </button>
+              <button
+                type="submit"
+                disabled={isLoading || !inputValue.trim()}
+                className={cn(
+                  'chatbot-modern__send-btn',
+                  inputValue.trim() && 'chatbot-modern__send-btn--active'
+                )}
+                aria-label="Send message"
+              >
+                <ArrowUp size={18} />
+              </button>
+            </div>
           </div>
-        ))}
-        {isLoading && (
-          <div className="chatbot__message chatbot__message--assistant chatbot__message--loading">
-            <p className="chatbot__text">Thinking...</p>
-          </div>
-        )}
-      </section>
-      <form className="chatbot__form" onSubmit={handleSubmit} autoComplete="off">
-        <label className="sr-only" htmlFor="user-input">Message</label>
-        <input
-          id="user-input"
-          name="message"
-          type="text"
-          placeholder="Type your message..."
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          disabled={isLoading}
-          required
-        />
-        <button type="submit" disabled={isLoading} aria-label="Send message">
-          Send
-        </button>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };
 
 export default Chatbot;
-

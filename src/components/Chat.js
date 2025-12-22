@@ -1,22 +1,24 @@
 import React from 'react';
-import Navigation from './Navigation';
+import { useNavigate } from 'react-router-dom';
 import Chatbot from './Chatbot';
 import MorningTide from './MorningTide';
-import Footer from './Footer';
+import { ArrowLeft } from 'lucide-react';
 import './Page.css';
 
 const Chat = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="page">
+    <div className="chat-page-full">
       <MorningTide />
-      <Navigation />
-      <div className="page-content">
-        <h1 className="page-title">Chat</h1>
-        <div className="page-body chat-page-body">
-          <Chatbot />
-        </div>
-      </div>
-      <Footer />
+      <button 
+        className="chat-back-button"
+        onClick={() => navigate(-1)}
+        aria-label="Go back"
+      >
+        <ArrowLeft size={24} />
+      </button>
+      <Chatbot />
     </div>
   );
 };
