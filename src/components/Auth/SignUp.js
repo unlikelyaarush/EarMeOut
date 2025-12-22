@@ -145,6 +145,15 @@ const Signup = () => {
                 >
                   Terms & Conditions
                 </button>
+                {' '}and{' '}
+                <a
+                  href="/privacy"
+                  className="terms-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Privacy Policy
+                </a>
               </label>
             </div>
             {showTerms && (

@@ -118,6 +118,28 @@
   margin: 0;
 }
 
+.privacy-policy-content {
+  text-align: left;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.privacy-section {
+  margin-bottom: 2.5rem;
+}
+
+.privacy-list {
+  color: #ffffff;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+.privacy-list li {
+  margin-bottom: 0.5rem;
+}
+
 @media (max-width: 768px) {
   .page {
     padding-top: 60px;

@@ -182,6 +182,17 @@
   color: #0D9488;
 }
 
+.terms-label a {
+  color: #14B8A6;
+  text-decoration: underline;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.terms-label a:hover {
+  color: #0D9488;
+}
+
 .terms-content {
   margin-top: 16px;
   padding: 20px;
