@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { User } from 'lucide-react';
 import './Navigation.css';
 
 const Navigation = () => {
@@ -39,6 +40,15 @@ const Navigation = () => {
             <span className="u-btn__top">Get Started</span>
             <span className="u-btn__bottom"></span>
           </Link>
+          {user && (
+            <button
+              className="profile-button"
+              onClick={() => navigate('/profile')}
+              aria-label="Go to profile settings"
+            >
+              <User size={22} />
+            </button>
+          )}
         </div>
       </div>
     </nav>

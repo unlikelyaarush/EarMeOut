@@ -93,6 +93,36 @@
   gap: 0.75rem;
 }
 
+/* Profile Button */
+.profile-button {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgb(255, 255, 238);
+  border: none;
+  outline: 2px solid rgb(36, 38, 34);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: rgb(36, 38, 34);
+}
+
+.profile-button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.profile-button:active {
+  transform: scale(0.98);
+}
+
+.profile-button:focus-visible {
+  box-shadow: 0 0 0 3px rgba(36, 38, 34, 0.2);
+  outline: none;
+}
+
 .nav-sign-in {
   padding: 0.5rem 1rem;
   font-size: 0.875rem;

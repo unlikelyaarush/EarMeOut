@@ -6,6 +6,7 @@ import Homepage from './components/Homepage';
 import Events from './components/Events';
 import Team from './components/Team';
 import Chat from './components/Chat';
+import Profile from './components/Profile';
 import Login from './components/Auth/Login';
 import Signup from './components/Auth/SignUp';
 import EmailConfirmation from './components/Auth/EmailConfirmation';
@@ -25,13 +26,21 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/confirm-email" element={<EmailConfirmation />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
-            <Route 
-              path="/chat" 
+            <Route
+              path="/chat"
               element={
                 <ProtectedRoute>
                   <Chat />
                 </ProtectedRoute>
-              } 
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
             />
           </Routes>
         </div>
