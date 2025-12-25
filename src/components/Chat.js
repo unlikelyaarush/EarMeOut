@@ -11,9 +11,9 @@ const Chat = () => {
   return (
     <div className="chat-page-full">
       <MorningTide />
-      <button 
+      <button
         className="chat-back-button"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate('/')}
         aria-label="Go back"
       >
         <ArrowLeft size={24} />
