@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
+import { profileService } from '../lib/profileService';
 
 const AuthContext = createContext({});
 
@@ -51,6 +52,26 @@ export const AuthProvider = ({children}) => {
                     emailRedirectTo: `${window.location.origin}/confirm-email`,
                 },
             });
+            
+            // Initialize profile for new user
+            // Note: Profile initialization may fail if session isn't ready yet (401 error)
+            // This is OK - profile will be created when user visits /profile page
+            if (data.user && !error) {
+                try {
+                    // Wait a bit for session to be established
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    await profileService.initializeProfile(data.user.id, email);
+                    console.log('Profile initialized for new user during signup');
+                } catch (profileError) {
+                    console.warn('Profile initialization during signup failed (will be created on profile page visit):', {
+                        error: profileError,
+                        code: profileError.code,
+                        message: profileError.message,
+                        userId: data.user?.id
+                    });
+                    // Don't throw error - profile will be created when user visits profile page
+                }
+            }
             
             return { data, error };
         } catch (error) {

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { profileService } from '../lib/profileService';
 import MorningTide from './MorningTide';
 import FadeContent from './FadeContent';
 import { 
@@ -56,6 +57,8 @@ const Profile = () => {
   // UI State
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [saveToast, setSaveToast] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [saveTimeout, setSaveTimeout] = useState(null);
 
   const focusAreaOptions = [
     'Stress', 'Anxiety', 'Relationships', 'Self-esteem', 
@@ -63,18 +66,184 @@ const Profile = () => {
     'Loneliness', 'Depression', 'Anger', 'Mindfulness'
   ];
 
-  const toggleFocusArea = (area) => {
-    setFocusAreas(prev => 
-      prev.includes(area) 
-        ? prev.filter(a => a !== area)
-        : [...prev, area]
-    );
-    showSaveToast();
+  // Load profile data on mount
+  useEffect(() => {
+    const loadProfile = async () => {
+      if (!user) return;
+      
+      try {
+        setIsLoading(true);
+        let profile = await profileService.getProfile(user.id);
+        
+        // If no profile exists, create one
+        if (!profile) {
+          profile = await profileService.initializeProfile(user.id, user.email);
+        }
+        
+        // Set state from profile data
+        if (profile) {
+          setDisplayName(profile.display_name || '');
+          setPronouns(profile.pronouns || 'prefer-not-to-say');
+          setEchoStyle(profile.echo_style || 'empathetic');
+          setResponseLength(profile.response_length || 'deeper');
+          setFocusAreas(profile.focus_areas || []);
+          setWeeklyGoal(profile.weekly_goal || '');
+          setAnonymousMode(profile.anonymous_mode || false);
+          setCheckInReminders(profile.check_in_reminders ?? true);
+          setReminderTime(profile.reminder_time || '09:00');
+          setQuietHoursEnabled(profile.quiet_hours_enabled || false);
+          setQuietHoursStart(profile.quiet_hours_start || '22:00');
+          setQuietHoursEnd(profile.quiet_hours_end || '08:00');
+          setTextSize(profile.text_size || 'medium');
+          setLanguage(profile.language || 'en');
+          setEmail(profile.email || user.email || '');
+          
+          // Apply saved text size
+          applyTextSize(profile.text_size || 'medium');
+        }
+      } catch (error) {
+        console.error('Failed to load profile:', {
+          error,
+          code: error.code,
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          userId: user?.id
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadProfile();
+  }, [user]);
+
+  // Apply text size globally
+  const applyTextSize = (size) => {
+    const root = document.documentElement;
+    const sizes = {
+      'small': '14px',
+      'medium': '16px',
+      'large': '18px',
+      'extra-large': '20px'
+    };
+    root.style.fontSize = sizes[size] || '16px';
   };
 
-  const showSaveToast = () => {
-    setSaveToast(true);
-    setTimeout(() => setSaveToast(false), 2000);
+  // Debounced save function
+  const saveProfileData = async (updates) => {
+    if (!user) {
+      console.warn('Cannot save profile: user not authenticated');
+      return;
+    }
+
+    // Clear existing timeout
+    if (saveTimeout) clearTimeout(saveTimeout);
+
+    // Set new timeout
+    const timeout = setTimeout(async () => {
+      try {
+        await profileService.updateProfile(user.id, updates);
+        setSaveToast(true);
+        setTimeout(() => setSaveToast(false), 2000);
+        console.log('Profile saved successfully:', Object.keys(updates).join(', '));
+      } catch (error) {
+        console.error('Failed to save profile:', {
+          error,
+          code: error.code,
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          updates,
+          userId: user.id
+        });
+        // Show error toast instead of success toast
+        // You could add an error toast state here if desired
+      }
+    }, 800);
+
+    setSaveTimeout(timeout);
+  };
+
+  // Handler functions
+  const handleDisplayNameChange = (value) => {
+    setDisplayName(value);
+    saveProfileData({ display_name: value });
+  };
+
+  const handlePronounsChange = (value) => {
+    setPronouns(value);
+    saveProfileData({ pronouns: value });
+  };
+
+  const handleEchoStyleChange = (value) => {
+    setEchoStyle(value);
+    saveProfileData({ echo_style: value });
+  };
+
+  const handleResponseLengthChange = (value) => {
+    setResponseLength(value);
+    saveProfileData({ response_length: value });
+  };
+
+  const handleWeeklyGoalChange = (value) => {
+    setWeeklyGoal(value);
+    saveProfileData({ weekly_goal: value });
+  };
+
+  const handleAnonymousModeChange = (value) => {
+    setAnonymousMode(value);
+    saveProfileData({ anonymous_mode: value });
+  };
+
+  const handleCheckInRemindersChange = (value) => {
+    setCheckInReminders(value);
+    saveProfileData({ check_in_reminders: value });
+  };
+
+  const handleReminderTimeChange = (value) => {
+    setReminderTime(value);
+    saveProfileData({ reminder_time: value });
+  };
+
+  const handleQuietHoursEnabledChange = (value) => {
+    setQuietHoursEnabled(value);
+    saveProfileData({ quiet_hours_enabled: value });
+  };
+
+  const handleQuietHoursStartChange = (value) => {
+    setQuietHoursStart(value);
+    saveProfileData({ quiet_hours_start: value });
+  };
+
+  const handleQuietHoursEndChange = (value) => {
+    setQuietHoursEnd(value);
+    saveProfileData({ quiet_hours_end: value });
+  };
+
+  const handleTextSizeChange = (value) => {
+    setTextSize(value);
+    saveProfileData({ text_size: value });
+    applyTextSize(value);
+  };
+
+  const handleLanguageChange = (value) => {
+    setLanguage(value);
+    saveProfileData({ language: value });
+  };
+
+  const handleEmailChange = (value) => {
+    setEmail(value);
+    saveProfileData({ email: value });
+  };
+
+  const toggleFocusArea = (area) => {
+    const newFocusAreas = focusAreas.includes(area)
+      ? focusAreas.filter(a => a !== area)
+      : [...focusAreas, area];
+    
+    setFocusAreas(newFocusAreas);
+    saveProfileData({ focus_areas: newFocusAreas });
   };
 
   const handleDeleteAccount = () => {
@@ -86,8 +255,28 @@ const Profile = () => {
   const handleExportData = () => {
     // In production, this would trigger a data export
     console.log('Export data requested');
-    showSaveToast();
+    setSaveToast(true);
+    setTimeout(() => setSaveToast(false), 2000);
   };
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="profile-page">
+        <MorningTide />
+        <div className="profile-container" style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          minHeight: '80vh',
+          color: 'white',
+          fontSize: '1.2rem'
+        }}>
+          Loading your settings...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="profile-page">
@@ -138,7 +327,7 @@ const Profile = () => {
                   id="displayName"
                   className="form-input"
                   value={displayName}
-                  onChange={(e) => { setDisplayName(e.target.value); showSaveToast(); }}
+                  onChange={(e) => handleDisplayNameChange(e.target.value)}
                   placeholder="Enter your name or nickname"
                 />
               </div>
@@ -151,7 +340,7 @@ const Profile = () => {
                   id="pronouns"
                   className="form-select"
                   value={pronouns}
-                  onChange={(e) => { setPronouns(e.target.value); showSaveToast(); }}
+                  onChange={(e) => handlePronounsChange(e.target.value)}
                 >
                   <option value="she-her">She/Her</option>
                   <option value="he-him">He/Him</option>
@@ -176,7 +365,7 @@ const Profile = () => {
                 <div className="style-cards">
                   <button
                     className={`style-card ${echoStyle === 'empathetic' ? 'active' : ''}`}
-                    onClick={() => { setEchoStyle('empathetic'); showSaveToast(); }}
+                    onClick={() => handleEchoStyleChange('empathetic')}
                   >
                     <Heart size={28} className="style-icon" />
                     <span className="style-name">Empathetic Listener</span>
@@ -185,7 +374,7 @@ const Profile = () => {
                   
                   <button
                     className={`style-card ${echoStyle === 'encourager' ? 'active' : ''}`}
-                    onClick={() => { setEchoStyle('encourager'); showSaveToast(); }}
+                    onClick={() => handleEchoStyleChange('encourager')}
                   >
                     <Sparkles size={28} className="style-icon" />
                     <span className="style-name">Gentle Encourager</span>
@@ -194,7 +383,7 @@ const Profile = () => {
                   
                   <button
                     className={`style-card ${echoStyle === 'questioner' ? 'active' : ''}`}
-                    onClick={() => { setEchoStyle('questioner'); showSaveToast(); }}
+                    onClick={() => handleEchoStyleChange('questioner')}
                   >
                     <HelpCircle size={28} className="style-icon" />
                     <span className="style-name">Thoughtful Questioner</span>
@@ -208,13 +397,13 @@ const Profile = () => {
                 <div className="toggle-group">
                   <button
                     className={`toggle-option ${responseLength === 'brief' ? 'active' : ''}`}
-                    onClick={() => { setResponseLength('brief'); showSaveToast(); }}
+                    onClick={() => handleResponseLengthChange('brief')}
                   >
                     Brief check-ins
                   </button>
                   <button
                     className={`toggle-option ${responseLength === 'deeper' ? 'active' : ''}`}
-                    onClick={() => { setResponseLength('deeper'); showSaveToast(); }}
+                    onClick={() => handleResponseLengthChange('deeper')}
                   >
                     Deeper conversations
                   </button>
@@ -254,7 +443,7 @@ const Profile = () => {
                   id="weeklyGoal"
                   className="form-textarea"
                   value={weeklyGoal}
-                  onChange={(e) => { setWeeklyGoal(e.target.value); showSaveToast(); }}
+                  onChange={(e) => handleWeeklyGoalChange(e.target.value)}
                   placeholder="What would you like to focus on this week?"
                   rows={3}
                 />
@@ -285,7 +474,7 @@ const Profile = () => {
                   </div>
                   <button
                     className={`toggle-switch ${anonymousMode ? 'active' : ''}`}
-                    onClick={() => { setAnonymousMode(!anonymousMode); showSaveToast(); }}
+                    onClick={() => handleAnonymousModeChange(!anonymousMode)}
                     aria-label="Toggle anonymous mode"
                   >
                     <span className="toggle-thumb" />
@@ -331,7 +520,7 @@ const Profile = () => {
                   </div>
                   <button
                     className={`toggle-switch ${checkInReminders ? 'active' : ''}`}
-                    onClick={() => { setCheckInReminders(!checkInReminders); showSaveToast(); }}
+                    onClick={() => handleCheckInRemindersChange(!checkInReminders)}
                     aria-label="Toggle check-in reminders"
                   >
                     <span className="toggle-thumb" />
@@ -346,7 +535,7 @@ const Profile = () => {
                       id="reminderTime"
                       className="form-time"
                       value={reminderTime}
-                      onChange={(e) => { setReminderTime(e.target.value); showSaveToast(); }}
+                      onChange={(e) => handleReminderTimeChange(e.target.value)}
                     />
                   </div>
                 )}
@@ -360,7 +549,7 @@ const Profile = () => {
                   </div>
                   <button
                     className={`toggle-switch ${quietHoursEnabled ? 'active' : ''}`}
-                    onClick={() => { setQuietHoursEnabled(!quietHoursEnabled); showSaveToast(); }}
+                    onClick={() => handleQuietHoursEnabledChange(!quietHoursEnabled)}
                     aria-label="Toggle quiet hours"
                   >
                     <span className="toggle-thumb" />
@@ -376,7 +565,7 @@ const Profile = () => {
                         id="quietStart"
                         className="form-time"
                         value={quietHoursStart}
-                        onChange={(e) => { setQuietHoursStart(e.target.value); showSaveToast(); }}
+                        onChange={(e) => handleQuietHoursStartChange(e.target.value)}
                       />
                     </div>
                     <div className="time-input-group">
@@ -386,7 +575,7 @@ const Profile = () => {
                         id="quietEnd"
                         className="form-time"
                         value={quietHoursEnd}
-                        onChange={(e) => { setQuietHoursEnd(e.target.value); showSaveToast(); }}
+                        onChange={(e) => handleQuietHoursEndChange(e.target.value)}
                       />
                     </div>
                   </div>
@@ -412,7 +601,7 @@ const Profile = () => {
                       <button
                         key={size}
                         className={`size-option ${textSize === size ? 'active' : ''}`}
-                        onClick={() => { setTextSize(size); showSaveToast(); }}
+                        onClick={() => handleTextSizeChange(size)}
                         aria-label={`${size} text size`}
                       >
                         <span className="size-dot" />
@@ -432,7 +621,7 @@ const Profile = () => {
                   id="language"
                   className="form-select"
                   value={language}
-                  onChange={(e) => { setLanguage(e.target.value); showSaveToast(); }}
+                  onChange={(e) => handleLanguageChange(e.target.value)}
                 >
                   <option value="en">English</option>
                   <option value="es">Español</option>
@@ -464,7 +653,7 @@ const Profile = () => {
                   id="email"
                   className="form-input"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => handleEmailChange(e.target.value)}
                   placeholder="your@email.com"
                 />
                 <p className="form-hint">Used for account recovery only</p>
