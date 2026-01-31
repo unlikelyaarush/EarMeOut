@@ -1,31 +1,25 @@
 # EarMeOut - A Safe Space to Talk
 
-A mental health chatbot application providing a safe, judgment-free space for users to express themselves.
+A clean, mobile-friendly website structure for a mental health chatbot application.
 
 ## Features
 
-- 🎨 Clean, minimal design with smooth animations
+- 🎨 Clean, minimal design with soft colors and rounded corners
 - 📱 Mobile-responsive layout
-- 💬 AI-powered chat interface with conversation history
-- 🔐 User authentication and profiles
-- 🚀 Express.js backend with Supabase integration
-- ✨ Modern React frontend with GSAP animations
+- 💬 Chat interface with message history
+- 🚀 Express.js backend ready for chatbot integration
+- ✨ Smooth animations and modern UI elements
 
 ## Project Structure
 
 ```
-EarMeOut/
-├── server/
-│   └── index.js       # Express backend server
-├── src/
-│   ├── components/    # React components
-│   ├── contexts/      # React contexts (Auth)
-│   ├── lib/          # Utilities and services
-│   └── App.js        # Main app component
-├── public/            # Static assets
-├── prompts/          # AI system prompts
-├── package.json      # Dependencies and scripts
-└── README.md         # This file
+earmeout-chatbot/
+├── server.js          # Express backend server
+├── package.json       # Dependencies and scripts
+├── public/
+│   ├── index.html     # Main HTML page
+│   └── style.css      # Styling and responsive design
+└── README.md          # This file
 ```
 
 ## Getting Started
@@ -37,10 +31,9 @@ EarMeOut/
 
 ### Installation
 
-1. Clone the repository:
+1. Navigate to the project directory:
    ```bash
-   git clone https://github.com/unlikelyaarush/EarMeOut.git
-   cd EarMeOut
+   cd earmeout-chatbot
    ```
 
 2. Install dependencies:
@@ -48,40 +41,59 @@ EarMeOut/
    npm install
    ```
 
-3. Set up environment variables:
-   ```bash
-   cp .env.example .env
-   ```
-   Then edit `.env` and fill in your API keys and Supabase credentials.
-
-4. Start the development server:
+3. Start the development server:
    ```bash
    npm start
    ```
-   This will start both the React frontend (port 3000) and Express backend (port 3001).
 
-5. Open your browser and go to:
+4. Open your browser and go to:
    ```
    http://localhost:3000
    ```
 
-## Environment Variables
+### Development
 
-See `.env.example` for all required environment variables. At minimum, you need:
-- `HACK_CLUB_AI_API_KEY` or `OPENAI_API_KEY` (required)
-- `REACT_APP_SUPABASE_URL` (required)
-- `REACT_APP_SUPABASE_ANON_KEY` (required)
-- `SUPABASE_URL` (optional, for backend)
-- `SUPABASE_SERVICE_ROLE_KEY` (optional, for backend)
+For development with auto-reload:
+```bash
+npm run dev
+```
+
+## Current Status
+
+- ✅ Basic website structure
+- ✅ Responsive design
+- ✅ Chat interface layout
+- ✅ Express backend setup
+- 🔄 Chatbot API integration (placeholder ready)
+- 🔄 Message persistence (to be implemented)
+
+## Next Steps
+
+To connect your chatbot:
+
+1. **API Integration**: Modify the `/api/chat` endpoint in `server.js`
+2. **Message Handling**: Update the frontend JavaScript to call your chatbot API
+3. **Data Storage**: Add database integration for chat history
+4. **Authentication**: Implement user management if needed
 
 ## Technologies Used
 
-- **Frontend**: React, React Router, GSAP, Framer Motion
 - **Backend**: Node.js, Express.js
-- **Database**: Supabase (PostgreSQL)
-- **AI**: Hack Club AI / OpenAI API (proxying to Gemini)
-- **Styling**: CSS3, Tailwind CSS utilities
+- **Frontend**: HTML5, CSS3, Vanilla JavaScript
+- **Styling**: Custom CSS with gradients and animations
+- **Responsiveness**: Mobile-first CSS approach
+
+## Browser Support
+
+- Chrome (recommended)
+- Firefox
+- Safari
+- Edge
 
 ## License
 
-MIT License - see LICENSE.txt for details.
+MIT License - feel free to modify and use as needed.
+
+---
+
+**Note**: This is a frontend structure. The chatbot functionality is currently placeholder and will need to be implemented based on your specific chatbot API or service.

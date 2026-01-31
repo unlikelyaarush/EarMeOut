@@ -24,41 +24,30 @@ const Navigation = () => {
   return (
     <nav className="navigation-new">
       <div className="navigation-container">
-        <div className="nav-brand-container">
-          <img
-            src="/earmeout-bot.png"
-            alt="EarMeOut"
-            className="nav-brand-image"
-          />
-          <Link to="/" className="nav-brand">
-            EarMeOut
-          </Link>
-        </div>
         <SlideTabs position={position} setPosition={setPosition} location={location} />
 
         <div className="navigation-right">
           {!user ? (
-            <>
-              <Link to="/login" className="nav-sign-in">
-                Sign In
-              </Link>
-              <Link to="/chat" className="u-btn">
-                <span className="u-btn__top">Get Started</span>
-              </Link>
-            </>
+            <Link to="/login" className="nav-sign-in">
+              Sign In
+            </Link>
           ) : (
-            <>
-              <button onClick={handleLogout} className="nav-sign-in">
-                Log Out
-              </button>
-              <button
-                className="profile-button"
-                onClick={() => navigate('/profile')}
-                aria-label="Go to profile settings"
-              >
-                <User size={22} />
-              </button>
-            </>
+            <button onClick={handleLogout} className="nav-sign-in">
+              Log Out
+            </button>
+          )}
+          <Link to="/chat" className="u-btn">
+            <span className="u-btn__top">Get Started</span>
+            <span className="u-btn__bottom"></span>
+          </Link>
+          {user && (
+            <button
+              className="profile-button"
+              onClick={() => navigate('/profile')}
+              aria-label="Go to profile settings"
+            >
+              <User size={22} />
+            </button>
           )}
         </div>
       </div>

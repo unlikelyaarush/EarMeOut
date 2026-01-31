@@ -1,6 +1,6 @@
 /* New SlideTabs Navigation Styles */
 .navigation-new {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -21,49 +21,6 @@
   justify-content: center;
   align-items: center;
   position: relative;
-}
-
-.nav-brand-container {
-  position: absolute;
-  left: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  z-index: 1001;
-}
-
-.nav-brand-image {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-}
-
-.nav-brand {
-  font-family: 'Lexend Exa', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: white;
-  text-decoration: none;
-  transition: opacity 0.2s ease;
-}
-
-.nav-brand:hover {
-  opacity: 0.8;
-}
-
-@media (min-width: 768px) {
-  .nav-brand-container {
-    left: 2rem;
-  }
-
-  .nav-brand {
-    font-size: 1.75rem;
-  }
-
-  .nav-brand-image {
-    width: 48px;
-    height: 48px;
-  }
 }
 
 .slide-tabs {
@@ -183,48 +140,123 @@
   opacity: 0.8;
 }
 
-/* 3D Button - From Uiverse.io by Voxybuns */
+/* 3D Button - From Uiverse.io by nishal21 */
 .u-btn {
-  --button_radius: 0.75em;
-  --button_color: #e8e8e8;
-  --button_outline_color: #000000;
-  font-size: 17px;
-  font-weight: bold;
+  width: 140px;
+  height: 50px;
+  position: relative;
+  background: none;
   border: none;
-  cursor: pointer;
-  border-radius: var(--button_radius);
-  background: var(--button_outline_color);
   padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font-family:
+    "Poppins",
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial;
+  -webkit-tap-highlight-color: transparent;
   text-decoration: none;
-  display: inline-block;
 }
 
 /* Top face */
 .u-btn__top {
-  display: block;
+  width: 100%;
+  height: 100%;
+  background: rgb(255, 255, 238);
+  font-size: 16px;
+  color: rgb(36, 38, 34);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  outline: 2px solid rgb(36, 38, 34);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
   box-sizing: border-box;
-  border: 2px solid var(--button_outline_color);
-  border-radius: var(--button_radius);
-  padding: 0.75em 1.5em;
-  background: var(--button_color);
-  color: var(--button_outline_color);
-  transform: translateY(-0.2em);
-  transition: transform 0.1s ease;
+  font-weight: 600;
 }
 
-.u-btn:hover .u-btn__top {
-  /* Pull the button upwards when hovered */
-  transform: translateY(-0.33em);
+/* Bottom shadow/surface */
+.u-btn__bottom {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgb(229, 229, 199);
+  top: 10px;
+  left: 0;
+  border-radius: 25px;
+  outline: 2px solid rgb(36, 38, 34);
+  z-index: -1;
+  box-sizing: border-box;
 }
 
+/* small vertical posts on the base */
+.u-btn__bottom::before,
+.u-btn__bottom::after {
+  position: absolute;
+  content: "";
+  width: 2px;
+  height: 9px;
+  background: rgb(36, 38, 34);
+  bottom: 0;
+}
+
+.u-btn__bottom::before {
+  left: 15%;
+}
+
+.u-btn__bottom::after {
+  left: 85%;
+}
+
+/* pressed state: move the top face down */
 .u-btn:active .u-btn__top {
-  /* Push the button downwards when pressed */
-  transform: translateY(0);
+  transform: translateY(10px);
+}
+
+/* extra shading layer behind the base */
+.u-btn::before {
+  position: absolute;
+  content: "";
+  width: calc(100% + 2px);
+  height: 100%;
+  background: rgb(140, 140, 140);
+  top: 14px;
+  left: -1px;
+  border-radius: 25px;
+  outline: 2px solid rgb(36, 38, 34);
+  z-index: -2;
+}
+
+/* gloss on the top face */
+.u-btn__top::before {
+  position: absolute;
+  content: "";
+  width: 15px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  transform: skewX(30deg);
+  left: -20px;
+  transition: left 0.25s ease;
+  pointer-events: none;
+}
+
+/* animate gloss moving across when pressed */
+.u-btn:active .u-btn__top::before {
+  left: calc(100% + 20px);
 }
 
 /* keyboard-focus visible state for accessibility */
 .u-btn:focus-visible .u-btn__top {
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0 3px rgba(36, 38, 34, 0.12);
+  outline: none;
 }
 
 /* Remove old navigation styles or keep for compatibility */

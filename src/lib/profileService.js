@@ -108,6 +108,7 @@ export const profileService = {
           });
           throw error;
         }
+        console.log('Profile created during update operation');
         return data;
       } else {
         // Profile exists, update it
@@ -153,6 +154,7 @@ export const profileService = {
       // Check if profile already exists
       const existing = await this.getProfile(userId);
       if (existing) {
+        console.log('Profile already exists, skipping initialization');
         return existing;
       }
 
@@ -190,6 +192,7 @@ export const profileService = {
         });
         throw error;
       }
+      console.log('Profile initialized for new user:', userId);
       return data;
     } catch (error) {
       console.error('Error in initializeProfile:', {

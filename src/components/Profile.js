@@ -146,6 +146,7 @@ const Profile = () => {
         await profileService.updateProfile(user.id, updates);
         setSaveToast(true);
         setTimeout(() => setSaveToast(false), 2000);
+        console.log('Profile saved successfully:', Object.keys(updates).join(', '));
       } catch (error) {
         console.error('Failed to save profile:', {
           error,
@@ -247,11 +248,13 @@ const Profile = () => {
 
   const handleDeleteAccount = () => {
     // In production, this would call an API endpoint
+    console.log('Delete account requested');
     setShowDeleteModal(false);
   };
 
   const handleExportData = () => {
     // In production, this would trigger a data export
+    console.log('Export data requested');
     setSaveToast(true);
     setTimeout(() => setSaveToast(false), 2000);
   };
