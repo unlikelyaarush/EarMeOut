@@ -61,7 +61,6 @@ export const AuthProvider = ({children}) => {
                     // Wait a bit for session to be established
                     await new Promise(resolve => setTimeout(resolve, 500));
                     await profileService.initializeProfile(data.user.id, email);
-                    console.log('Profile initialized for new user during signup');
                 } catch (profileError) {
                     console.warn('Profile initialization during signup failed (will be created on profile page visit):', {
                         error: profileError,

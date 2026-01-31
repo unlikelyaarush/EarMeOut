@@ -1,572 +1,154 @@
 /* ============================================
-   GOLDEN HOUR - Immersive Sunset Sky
+   MORNINGTIDE - Scrollytelling Styles
    ============================================ */
 
-.morning-tide {
+/* 
+   The container provides the height for scrolling.
+   400vh means the user has to scroll 4 screen heights
+   to complete the animation.
+*/
+.morning-tide-container {
+    position: relative;
+    width: 100%;
+    height: 2000vh;
+    background-color: #1a1525;
+    /* Start with dark color */
+}
+
+/* 
+   Sticky wrapper pins the canvas to the viewport 
+   as long as the container is in view.
+*/
+.mt-sticky-wrapper {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Full viewport canvas */
+.morning-tide-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* ============================================
+   LOADING OVERLAY
+   ============================================ */
+.mt-loading-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
-    overflow: hidden;
-    background: #f2e4b5;
-}
-
-/* ============================================
-   SKY - Dramatic Sunset Gradient
-   ============================================ */
-.mt-sky {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 90%;
-    /* Extended to cover behind waves */
-    background: linear-gradient(to bottom,
-            #1a1525 0%,
-            #252035 8%,
-            #352845 15%,
-            #453552 22%,
-            #55405a 28%,
-            #684a62 34%,
-            #7a5568 40%,
-            #8c6270 46%,
-            #9d7075 52%,
-            #ae807a 58%,
-            #be9080 64%,
-            #cca085 70%,
-            #d8b08a 76%,
-            #e2c090 82%,
-            #e8cc98 88%,
-            #edd8a5 94%,
-            #f2e4b5 100%);
-    z-index: 1;
-}
-
-/* ============================================
-   VENUS - First Star of Evening
-   ============================================ */
-.mt-venus {
-    position: absolute;
-    top: 8%;
-    right: 15%;
-    width: 4px;
-    height: 4px;
-    background: #fff;
-    border-radius: 50%;
-    box-shadow:
-        0 0 4px 2px rgba(255, 255, 255, 0.8),
-        0 0 10px 4px rgba(255, 248, 220, 0.6),
-        0 0 20px 8px rgba(255, 230, 180, 0.3);
-    animation: venus-twinkle 4s ease-in-out infinite;
-}
-
-@keyframes venus-twinkle {
-
-    0%,
-    100% {
-        opacity: 0.6;
-        transform: scale(1);
-    }
-
-    50% {
-        opacity: 1;
-        transform: scale(1.3);
-    }
-}
-
-/* ============================================
-   GOLDEN DUST MOTES - Atmospheric Haze
-   ============================================ */
-.mt-dust-layer {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-image:
-        radial-gradient(circle, rgba(255, 215, 140, 0.3) 1px, transparent 1px),
-        radial-gradient(circle, rgba(255, 200, 100, 0.2) 1px, transparent 1px);
-    background-size: 80px 80px, 120px 120px;
-    pointer-events: none;
-}
-
-.mt-dust-1 {
-    background-position: 0 0, 40px 40px;
-    animation: dust-drift 25s linear infinite;
-    opacity: 0.4;
-}
-
-.mt-dust-2 {
-    background-position: 20px 20px, 60px 60px;
-    animation: dust-drift 35s linear infinite reverse;
-    opacity: 0.3;
-}
-
-.mt-dust-3 {
-    background-position: 50px 10px, 30px 80px;
-    animation: dust-drift-vertical 40s linear infinite;
-    opacity: 0.25;
-}
-
-@keyframes dust-drift {
-    0% {
-        transform: translateX(0) translateY(0);
-    }
-
-    100% {
-        transform: translateX(100px) translateY(-50px);
-    }
-}
-
-@keyframes dust-drift-vertical {
-    0% {
-        transform: translateY(0) translateX(0);
-    }
-
-    100% {
-        transform: translateY(-100px) translateX(30px);
-    }
-}
-
-/* ============================================
-   ILLUMINATED CLOUDS
-   ============================================ */
-.mt-cloud {
-    position: absolute;
-    border-radius: 100px;
-    filter: blur(8px);
-    opacity: 0.7;
-    animation: cloud-drift 60s linear infinite;
-}
-
-.mt-cloud-1 {
-    top: 15%;
-    left: -10%;
-    width: 300px;
-    height: 40px;
-    background: linear-gradient(135deg,
-            rgba(80, 40, 80, 0.6) 0%,
-            rgba(180, 100, 120, 0.5) 50%,
-            rgba(220, 140, 100, 0.3) 100%);
-    animation-duration: 80s;
-}
-
-.mt-cloud-2 {
-    top: 22%;
-    left: 20%;
-    width: 200px;
-    height: 30px;
-    background: linear-gradient(135deg,
-            rgba(120, 60, 90, 0.5) 0%,
-            rgba(200, 120, 130, 0.4) 50%,
-            rgba(240, 160, 120, 0.3) 100%);
-    animation-duration: 70s;
-    animation-delay: -20s;
-}
-
-.mt-cloud-3 {
-    top: 38%;
-    left: -20%;
-    width: 400px;
-    height: 50px;
-    background: linear-gradient(180deg,
-            rgba(200, 100, 120, 0.4) 0%,
-            rgba(255, 160, 130, 0.6) 40%,
-            rgba(255, 200, 150, 0.5) 100%);
-    box-shadow: 0 10px 40px rgba(255, 180, 120, 0.3);
-    animation-duration: 90s;
-    animation-delay: -10s;
-}
-
-.mt-cloud-4 {
-    top: 45%;
-    left: 40%;
-    width: 350px;
-    height: 45px;
-    background: linear-gradient(180deg,
-            rgba(180, 80, 100, 0.4) 0%,
-            rgba(255, 140, 140, 0.6) 40%,
-            rgba(255, 180, 130, 0.6) 100%);
-    box-shadow: 0 15px 50px rgba(255, 160, 100, 0.4);
-    animation-duration: 65s;
-    animation-delay: -30s;
-}
-
-.mt-cloud-5 {
-    top: 58%;
-    left: 10%;
-    width: 280px;
-    height: 35px;
-    background: linear-gradient(180deg,
-            rgba(255, 140, 100, 0.5) 0%,
-            rgba(255, 190, 130, 0.7) 50%,
-            rgba(255, 220, 160, 0.6) 100%);
-    box-shadow:
-        0 5px 30px rgba(255, 200, 100, 0.5),
-        inset 0 -10px 20px rgba(255, 230, 180, 0.3);
-    animation-duration: 55s;
-    animation-delay: -40s;
-}
-
-.mt-cloud-6 {
-    top: 65%;
-    left: 55%;
-    width: 320px;
-    height: 40px;
-    background: linear-gradient(180deg,
-            rgba(255, 160, 110, 0.5) 0%,
-            rgba(255, 200, 140, 0.7) 50%,
-            rgba(255, 230, 180, 0.6) 100%);
-    box-shadow:
-        0 8px 35px rgba(255, 210, 120, 0.5),
-        inset 0 -12px 25px rgba(255, 240, 200, 0.3);
-    animation-duration: 75s;
-    animation-delay: -15s;
-}
-
-@keyframes cloud-drift {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(calc(100vw + 400px));
-    }
-}
-
-/* ============================================
-   BIRD FLOCKS - Realistic Silhouettes
-   ============================================ */
-.mt-flock {
-    position: absolute;
+    z-index: 1000;
+    background: #1a1525;
     display: flex;
-    gap: 12px;
-    animation: flock-fly 20s linear infinite;
-}
-
-.mt-bird {
-    width: 16px;
-    height: 6px;
-    background: transparent;
-    position: relative;
-}
-
-.mt-bird::before,
-.mt-bird::after {
-    content: '';
-    position: absolute;
-    width: 8px;
-    height: 2px;
-    background: rgba(25, 20, 30, 0.75);
-    border-radius: 50%;
-    top: 50%;
-    transform-origin: center center;
-}
-
-.mt-bird::before {
-    left: 0;
-    transform: rotate(-20deg) translateY(-50%);
-    animation: wing-left 0.6s ease-in-out infinite;
-}
-
-.mt-bird::after {
-    right: 0;
-    transform: rotate(20deg) translateY(-50%);
-    animation: wing-right 0.6s ease-in-out infinite;
-}
-
-@keyframes wing-left {
-
-    0%,
-    100% {
-        transform: rotate(-15deg) translateY(-50%);
-    }
-
-    50% {
-        transform: rotate(-35deg) translateY(-50%);
-    }
-}
-
-@keyframes wing-right {
-
-    0%,
-    100% {
-        transform: rotate(15deg) translateY(-50%);
-    }
-
-    50% {
-        transform: rotate(35deg) translateY(-50%);
-    }
-}
-
-@keyframes flock-fly {
-    0% {
-        transform: translateX(-100px) translateY(0);
-    }
-
-    25% {
-        transform: translateX(25vw) translateY(-10px);
-    }
-
-    50% {
-        transform: translateX(50vw) translateY(5px);
-    }
-
-    75% {
-        transform: translateX(75vw) translateY(-5px);
-    }
-
-    100% {
-        transform: translateX(calc(100vw + 150px)) translateY(0);
-    }
-}
-
-/* Flock Positions - Staggered for frequent appearances */
-.mt-flock-1 {
-    top: 18%;
-    left: 0;
-    animation-duration: 15s;
-    animation-delay: 0s;
-}
-
-.mt-flock-2 {
-    top: 28%;
-    left: 0;
-    animation-duration: 18s;
-    animation-delay: -6s;
-}
-
-.mt-flock-3 {
-    top: 22%;
-    left: 0;
-    animation-duration: 20s;
-    animation-delay: -12s;
-}
-
-/* ============================================
-   THE SUN - Poster-style Cartoon
-   ============================================ */
-.mt-sun-container {
-    position: absolute;
-    bottom: 12%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 200px;
-    display: flex;
-    justify-content: center;
     align-items: center;
-    z-index: 5;
+    justify-content: center;
 }
 
-.mt-sun {
-    width: 100px;
-    height: 100px;
-    background:
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9) 0%, transparent 25%),
-        radial-gradient(circle at 40% 40%, #fffbe8 0%, #ffe066 25%, #ffb830 50%, #ff8c00 80%, #e06000 100%);
+.mt-loading-content {
+    text-align: center;
+    color: white;
+}
+
+.mt-loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top-color: rgba(255, 255, 255, 0.9);
     border-radius: 50%;
-    z-index: 4;
-    filter: blur(2px);
-    box-shadow:
-        0 0 30px rgba(255, 180, 80, 0.6),
-        0 0 60px rgba(255, 140, 50, 0.4);
+    margin: 0 auto 20px;
+    animation: spin 1s linear infinite;
 }
 
-/* Bloom/Halo Layers */
-.mt-sun-bloom {
-    position: absolute;
-    border-radius: 50%;
-    animation: sun-pulse 6s ease-in-out infinite;
-}
-
-.mt-bloom-outer {
-    width: 280px;
-    height: 280px;
-    background: radial-gradient(circle,
-            rgba(255, 200, 100, 0.06) 0%,
-            rgba(255, 160, 60, 0.03) 40%,
-            transparent 70%);
-    z-index: 1;
-    animation-delay: 0s;
-}
-
-.mt-bloom-middle {
-    width: 180px;
-    height: 180px;
-    background: radial-gradient(circle,
-            rgba(255, 180, 80, 0.1) 0%,
-            rgba(255, 140, 40, 0.05) 50%,
-            transparent 70%);
-    z-index: 2;
-    animation-delay: -2s;
-}
-
-.mt-bloom-inner {
-    width: 130px;
-    height: 130px;
-    background: radial-gradient(circle,
-            rgba(255, 220, 130, 0.18) 0%,
-            rgba(255, 180, 60, 0.08) 50%,
-            transparent 70%);
-    z-index: 3;
-    animation-delay: -4s;
-}
-
-@keyframes sun-pulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-        opacity: 0.8;
-    }
-
-    50% {
-        transform: scale(1.08);
-        opacity: 1;
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
 }
 
-/* ============================================
-   HORIZON GLOW
-   ============================================ */
-.mt-horizon-glow {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 18%;
-    background: linear-gradient(to top,
-            rgba(255, 240, 200, 0.18) 0%,
-            rgba(255, 200, 130, 0.08) 40%,
-            transparent 100%);
-    z-index: 0;
+.mt-loading-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 15px;
+    font-family: inherit;
+    letter-spacing: 0.5px;
 }
 
-/* ============================================
-   SVG OCEAN WAVES
-   ============================================ */
-.mt-ocean-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 20%;
-    /* Height of the wave section */
-    z-index: 6;
-    /* In front of sun */
+.mt-loading-bar {
+    width: 200px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
     overflow: hidden;
-    background: transparent;
+    margin: 0 auto;
 }
 
-.mt-waves {
-    position: absolute;
-    width: 100%;
+.mt-loading-progress {
     height: 100%;
-    bottom: 0;
-    left: 0;
-    min-height: 100px;
-    max-height: 150px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    border-radius: 2px;
+    transition: width 0.2s ease;
 }
-
-/* Animation for the wave parallax */
-.mt-parallax>use {
-    animation: move-forever 25s cubic-bezier(.55, .5, .45, .5) infinite;
-}
-
-.mt-parallax>use:nth-child(1) {
-    animation-delay: -2s;
-    animation-duration: 7s;
-}
-
-.mt-parallax>use:nth-child(2) {
-    animation-delay: -3s;
-    animation-duration: 10s;
-}
-
-.mt-parallax>use:nth-child(3) {
-    animation-delay: -4s;
-    animation-duration: 13s;
-}
-
-.mt-parallax>use:nth-child(4) {
-    animation-delay: -5s;
-    animation-duration: 20s;
-}
-
-@keyframes move-forever {
-    0% {
-        transform: translate3d(-90px, 0, 0);
-    }
-
-    100% {
-        transform: translate3d(85px, 0, 0);
-    }
-}
-
-/* Lighter, Cartoon Teal Palette for Echo */
-/* Values derived from requested lighter teal aesthetic */
-/* Using rgba/fill in SVG logic mostly, but overriding via CSS where possible if needed */
 
 /* ============================================
-   NOISE OVERLAY - Film Grain
+   NOISE OVERLAY - Film Grain Effect
    ============================================ */
 .mt-noise-overlay {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: 10;
     pointer-events: none;
-    opacity: 0.025;
+    opacity: 0.04;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* ============================================
+   SCROLL HINT
+   ============================================ */
+.mt-scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    z-index: 20;
+    animation: fadePulse 2s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes fadePulse {
+
+    0%,
+    100% {
+        opacity: 0.4;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: translateX(-50%) translateY(5px);
+    }
 }
 
 /* ============================================
    RESPONSIVE ADJUSTMENTS
    ============================================ */
 @media (max-width: 768px) {
-    .mt-sun {
-        width: 70px;
-        height: 70px;
-    }
 
-    .mt-sun-container {
-        right: 10%;
-        bottom: 8%;
-    }
-
-    .mt-bloom-outer {
-        width: 250px;
-        height: 250px;
-    }
-
-    .mt-bloom-middle {
-        width: 180px;
-        height: 180px;
-    }
-
-    .mt-bloom-inner {
-        width: 120px;
-        height: 120px;
-    }
-
-    .mt-cloud {
-        transform: scale(0.7);
-    }
-
-    .mt-bird {
-        width: 8px;
-    }
-
-    .mt-bird::before,
-    .mt-bird::after {
-        width: 6px;
-        height: 2px;
-    }
-
-    .mt-ocean-container {
-        height: 15%;
+    /* On mobile maybe a bit shorter scroll distance if needed, but keeping consistent for now */
+    .morning-tide-container {
+        height: 350vh;
     }
 }

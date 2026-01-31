@@ -25,7 +25,7 @@ try {
 // Hack Club AI uses OpenAI-compatible API and can proxy to Gemini
 const openai = new OpenAI({
   apiKey: process.env.HACK_CLUB_AI_API_KEY || process.env.OPENAI_API_KEY,
-  baseURL: process.env.HACK_CLUB_AI_BASE_URL || 'https://api.hackclub.ai/v1',
+  baseURL: process.env.HACK_CLUB_AI_BASE_URL,
 });
 
 if (!process.env.HACK_CLUB_AI_API_KEY && !process.env.OPENAI_API_KEY) {
@@ -71,8 +71,8 @@ if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
     console.warn('To enable database storage, add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to your .env file');
 }
 
-// Use GPT-5.1 or fallback to gpt-4 if not available
-const MODEL_ID = process.env.AI_MODEL || 'gpt-5.1';
+// AI Model configuration
+const MODEL_ID = process.env.AI_MODEL || 'google/gemini-3-pro-preview';
 
 const MAX_CONTEXT_MESSAGES = 12;
 
@@ -233,20 +233,15 @@ app.post("/message", verifyToken, async (req, res) => {
 
         res.json({ message: assistantText, conversationId });
     } catch (err) {
-        console.error('Error processing message:', err);
-        // Log full error details for debugging
-        console.error('Error stack:', err.stack);
-        console.error('Error details:', {
+        console.error('Error processing message:', {
             message: err.message,
             name: err.name,
-            code: err.code
+            code: err.code,
+            stack: err.stack
         });
         
-        // Return a user-friendly error message
         const errorMessage = err.message || 'An error occurred while processing your message';
-        res
-            .status(500)
-            .json({ error: errorMessage });
+        res.status(500).json({ error: errorMessage });
     }
 });
 

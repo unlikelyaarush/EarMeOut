@@ -78,7 +78,7 @@
   transform: translateY(0);
 }
 
-/* About page specific styles */
+/* Shared page styles (used by PrivacyPolicy and other pages) */
 .about-content {
   max-width: 800px;
   margin: 0 auto;
