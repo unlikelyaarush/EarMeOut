@@ -87,6 +87,7 @@ const SlideTabs = ({ position, setPosition, location }) => {
       <Tab setPosition={setPosition} to="/" isActive={location.pathname === '/'}>Home</Tab>
       <Tab setPosition={setPosition} to="/events" isActive={location.pathname === '/events'}>Events</Tab>
       <Tab setPosition={setPosition} to="/team" isActive={location.pathname === '/team'}>Team</Tab>
+      <Tab setPosition={setPosition} to="/crisis" isActive={location.pathname === '/crisis'}>Crisis Help</Tab>
       <Tab setPosition={setPosition} href="https://hcb.hackclub.com/donations/start/earmeout" external>Donate</Tab>
       <Cursor position={position} />
     </ul>

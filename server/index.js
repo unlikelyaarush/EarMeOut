@@ -267,6 +267,28 @@ app.get("/conversations", verifyToken, async (req, res) => {
     }
 });
 
+// Delete a conversation
+app.delete("/conversations/:id", verifyToken, async (req, res) => {
+    if (!supabaseAdmin) {
+        return res.status(503).json({ error: 'Supabase not configured' });
+    }
+
+    try {
+        const { error } = await supabaseAdmin
+            .from('conversations')
+            .delete()
+            .eq('id', req.params.id)
+            .eq('user_id', req.user.id);
+
+        if (error) throw error;
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error deleting conversation:', error);
+        res.status(500).json({ error: 'Failed to delete conversation' });
+    }
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Backend API server running on port ${PORT}`);

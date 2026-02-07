@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Chatbot from './Chatbot';
-import MorningTide from './MorningTide';
 import { ArrowLeft } from 'lucide-react';
 import './Page.css';
 
@@ -9,8 +8,7 @@ const Chat = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="chat-page-full">
-      <MorningTide />
+    <div className="chat-page-full chat-page-full--solid">
       <button
         className="chat-back-button"
         onClick={() => navigate('/')}

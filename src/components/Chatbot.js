@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import './Chatbot.css';
 import { useAuth } from '../contexts/AuthContext';
-import { ArrowUp, Paperclip } from 'lucide-react';
+import { ArrowUp, Paperclip, Menu, Plus, Trash2, X } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 const Chatbot = () => {
@@ -11,6 +12,12 @@ const Chatbot = () => {
   const [conversationId, setConversationId] = useState(() => {
     return sessionStorage.getItem('conversationId') || null;
   });
+  const [showCrisisBanner, setShowCrisisBanner] = useState(false);
+  const [showDisclaimer, setShowDisclaimer] = useState(() => {
+    return !sessionStorage.getItem('disclaimerDismissed');
+  });
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [conversations, setConversations] = useState([]);
   const chatLogRef = useRef(null);
   const textareaRef = useRef(null);
   const { session } = useAuth();
@@ -55,9 +62,17 @@ const Chatbot = () => {
     setMessages(prev => [...prev, { role, text }]);
   };
 
-  // Parse AI response for [SPLIT] delimiters and display as separate messages
+  // Parse AI response for [CRISIS] and [SPLIT] markers
   const appendAssistantMessage = async (text) => {
-    const parts = text.split('[SPLIT]').map(p => p.trim()).filter(Boolean);
+    let cleaned = text;
+
+    // Check for crisis flag
+    if (cleaned.startsWith('[CRISIS]')) {
+      setShowCrisisBanner(true);
+      cleaned = cleaned.replace('[CRISIS]', '').trim();
+    }
+
+    const parts = cleaned.split('[SPLIT]').map(p => p.trim()).filter(Boolean);
 
     // Add first message immediately
     appendMessage('assistant', parts[0]);
@@ -143,11 +158,154 @@ const Chatbot = () => {
     }
   };
 
+  // Fetch conversation list for sidebar
+  const fetchConversations = useCallback(async () => {
+    if (!session?.access_token) return;
+    try {
+      const res = await fetch('/conversations', {
+        headers: { 'Authorization': `Bearer ${session.access_token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setConversations(data.conversations || []);
+      }
+    } catch (_) {}
+  }, [session]);
+
+  useEffect(() => {
+    fetchConversations();
+  }, [fetchConversations]);
+
+  // Load a past conversation
+  const loadConversation = (convo) => {
+    const history = (convo.history || []).map(m => ({
+      role: m.role === 'assistant' ? 'assistant' : 'you',
+      text: m.content,
+    }));
+    setMessages(history);
+    setConversationId(convo.id);
+    sessionStorage.setItem('conversationId', convo.id);
+    setSidebarOpen(false);
+    setShowCrisisBanner(false);
+  };
+
+  // Start new chat
+  const startNewChat = () => {
+    setMessages([]);
+    setConversationId(null);
+    sessionStorage.removeItem('conversationId');
+    setSidebarOpen(false);
+    setShowCrisisBanner(false);
+  };
+
+  // Delete a conversation
+  const deleteConversation = async (id, e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (!session?.access_token) return;
+    try {
+      const res = await fetch(`/conversations/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (res.ok) {
+        setConversations(prev => prev.filter(c => c.id !== id));
+        if (conversationId === id) {
+          setMessages([]);
+          setConversationId(null);
+          sessionStorage.removeItem('conversationId');
+          setShowCrisisBanner(false);
+        }
+      } else {
+        console.error('Delete failed:', res.status, await res.text());
+      }
+    } catch (err) {
+      console.error('Delete error:', err);
+    }
+  };
+
+  const dismissDisclaimer = () => {
+    setShowDisclaimer(false);
+    sessionStorage.setItem('disclaimerDismissed', 'true');
+  };
+
+  // Get a preview of a conversation
+  const getConvoPreview = (convo) => {
+    const firstUserMsg = (convo.history || []).find(m => m.role === 'user');
+    if (firstUserMsg) {
+      const text = firstUserMsg.content;
+      return text.length > 40 ? text.substring(0, 40) + '...' : text;
+    }
+    return 'New conversation';
+  };
+
+  const formatDate = (dateStr) => {
+    const d = new Date(dateStr);
+    const now = new Date();
+    const diffMs = now - d;
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return `${diffDays}d ago`;
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
+
   return (
     <div className="chatbot-modern">
+      {/* Sidebar overlay */}
+      {sidebarOpen && <div className="chatbot-sidebar__overlay" onClick={() => setSidebarOpen(false)} />}
+
+      {/* Conversation Sidebar */}
+      <aside className={cn('chatbot-sidebar', sidebarOpen && 'chatbot-sidebar--open')}>
+        <div className="chatbot-sidebar__header">
+          <h2>Conversations</h2>
+          <button className="chatbot-sidebar__close" onClick={() => setSidebarOpen(false)} aria-label="Close sidebar">
+            <X size={20} />
+          </button>
+        </div>
+        <button className="chatbot-sidebar__new" onClick={startNewChat}>
+          <Plus size={18} />
+          New Chat
+        </button>
+        <div className="chatbot-sidebar__list">
+          {conversations.map(convo => (
+            <div
+              key={convo.id}
+              className={cn('chatbot-sidebar__item', conversationId === convo.id && 'chatbot-sidebar__item--active')}
+              onClick={() => loadConversation(convo)}
+            >
+              <div className="chatbot-sidebar__item-text">
+                <span className="chatbot-sidebar__item-preview">{getConvoPreview(convo)}</span>
+                <span className="chatbot-sidebar__item-date">{formatDate(convo.updated_at || convo.created_at)}</span>
+              </div>
+              <button
+                className="chatbot-sidebar__item-delete"
+                onClick={(e) => deleteConversation(convo.id, e)}
+                aria-label="Delete conversation"
+              >
+                <Trash2 size={14} />
+              </button>
+            </div>
+          ))}
+          {conversations.length === 0 && (
+            <p className="chatbot-sidebar__empty">No past conversations</p>
+          )}
+        </div>
+      </aside>
+
       <div className="chatbot-modern__container">
         <header className="chatbot-modern__header">
           <div className="chatbot-modern__header-content">
+            <button
+              className="chatbot-modern__sidebar-toggle"
+              onClick={() => { setSidebarOpen(o => !o); fetchConversations(); }}
+              aria-label="Toggle conversation sidebar"
+            >
+              <Menu size={22} />
+            </button>
             <div className="chatbot-modern__header-avatar">
               <img 
                 src="/earmeout-bot.png" 
@@ -161,6 +319,24 @@ const Chatbot = () => {
             </div>
           </div>
         </header>
+
+        {/* Crisis Banner */}
+        {showCrisisBanner && (
+          <div className="chatbot-crisis-banner">
+            <p>
+              If you're in crisis, please reach out: <strong>call or text 988</strong> | text HOME to <strong>741741</strong> | call <strong>911</strong> for emergencies
+            </p>
+            <Link to="/crisis" className="chatbot-crisis-banner__link">View all resources</Link>
+          </div>
+        )}
+
+        {/* Disclaimer */}
+        {showDisclaimer && (
+          <div className="chatbot-disclaimer">
+            <p>Echo is an AI companion, not a licensed therapist. If you need professional help, please reach out to a qualified mental health provider.</p>
+            <button className="chatbot-disclaimer__close" onClick={dismissDisclaimer} aria-label="Dismiss"><X size={16} /></button>
+          </div>
+        )}
 
         <section 
           ref={chatLogRef}

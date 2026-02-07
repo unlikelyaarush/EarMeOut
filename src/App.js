@@ -11,6 +11,8 @@ import Login from './components/Auth/Login';
 import Signup from './components/Auth/SignUp';
 import EmailConfirmation from './components/Auth/EmailConfirmation';
 import PrivacyPolicy from './components/PrivacyPolicy';
+import CrisisResources from './components/CrisisResources';
+import TermsOfService from './components/TermsOfService';
 import './App.css';
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/confirm-email" element={<EmailConfirmation />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/crisis" element={<CrisisResources />} />
+            <Route path="/terms" element={<TermsOfService />} />
             <Route
               path="/chat"
               element={
