@@ -220,18 +220,12 @@
 
 /* Reduce spacing between consecutive assistant messages for texting effect */
 .chatbot-modern__message--assistant + .chatbot-modern__message--assistant {
-  margin-top: 0.25rem;
-  margin-bottom: 0.5rem;
+  margin-top: -0.75rem;
 }
 
-/* Hide avatar for consecutive assistant messages to make it look more like texting */
+/* Hide avatar for consecutive assistant messages but keep the space so bubbles stay aligned */
 .chatbot-modern__message--assistant + .chatbot-modern__message--assistant .chatbot-modern__message-avatar {
-  opacity: 0;
-  width: 0;
-  height: 0;
-  margin: 0;
-  padding: 0;
-  border: none;
+  visibility: hidden;
 }
 
 .chatbot-modern__message--user {
@@ -264,7 +258,7 @@
   border-radius: 18px;
   word-wrap: break-word;
   line-height: 1.6;
-  flex: 1;
+  max-width: 100%;
 }
 
 .chatbot-modern__message--user .chatbot-modern__message-content {
