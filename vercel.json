@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    { "source": "/message", "destination": "/api/message" },
+    { "source": "/conversations/:id", "destination": "/api/conversations/:id" },
+    { "source": "/conversations", "destination": "/api/conversations" }
+  ],
+  "functions": {
+    "api/**": {
+      "includeFiles": "prompts/**"
+    }
+  }
+}
