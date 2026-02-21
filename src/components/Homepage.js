@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import Navigation from './Navigation';
@@ -24,34 +24,12 @@ const TypingHero = ({ user }) => {
   const [message] = useState(() =>
     SUPPORTIVE_MESSAGES[Math.floor(Math.random() * SUPPORTIVE_MESSAGES.length)]
   );
-  const audioRef = useRef(null);
   const intervalRef = useRef(null);
-  const cleanedUp = useRef(false);
 
-  const cleanup = useCallback(() => {
-    if (cleanedUp.current) return;
-    cleanedUp.current = true;
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-    }
-    if (intervalRef.current) clearInterval(intervalRef.current);
-  }, []);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setHasStarted(true);
 
-  // User clicks → start audio immediately (guaranteed to work), wait 2s, then type
-  const handleStart = useCallback(() => {
-    if (hasStarted) return;
-    setHasStarted(true);
-
-    // Play audio — this is inside a click handler so browsers allow it
-    const audio = new Audio('/typewriter.mp3');
-    audio.volume = 0.35;
-    audio.loop = true;
-    audioRef.current = audio;
-    audio.play().catch(() => {});
-
-    // Wait 2 seconds for audio to settle, then start typing
-    setTimeout(() => {
       let idx = 0;
       intervalRef.current = setInterval(() => {
         if (idx < message.length) {
@@ -59,24 +37,20 @@ const TypingHero = ({ user }) => {
           setDisplayedText(message.slice(0, idx));
         } else {
           clearInterval(intervalRef.current);
-          if (audioRef.current) {
-            audioRef.current.pause();
-            audioRef.current.currentTime = 0;
-          }
           setTimeout(() => setIsFinished(true), 600);
         }
       }, 130);
-    }, 2000);
+    }, 1500);
 
-    return () => cleanup();
-  }, [hasStarted, message, cleanup]);
+    return () => {
+      clearTimeout(timer);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [message]);
 
   return (
-    <div className="typing-hero" onClick={handleStart}>
+    <div className="typing-hero">
       <div className="typing-hero__content">
-        {!hasStarted && (
-          <p className="typing-hero__tap-hint">click anywhere to begin</p>
-        )}
         <p className="typing-hero__text">
           {displayedText}
           {hasStarted && !isFinished && <span className="typing-hero__cursor">|</span>}
