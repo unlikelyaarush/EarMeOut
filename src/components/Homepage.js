@@ -16,7 +16,7 @@ const SUPPORTIVE_MESSAGES = [
   "It's okay to take things one day at a time.",
 ];
 
-const TypingHero = () => {
+const TypingHero = ({ user }) => {
   const navigate = useNavigate();
   const [displayedText, setDisplayedText] = useState('');
   const [isFinished, setIsFinished] = useState(false);
@@ -84,7 +84,7 @@ const TypingHero = () => {
         <div className={`typing-hero__cta ${isFinished ? 'typing-hero__cta--visible' : ''}`}>
           <button
             className="echo-btn"
-            onClick={(e) => { e.stopPropagation(); navigate('/chat'); }}
+            onClick={(e) => { e.stopPropagation(); navigate(user ? '/chat' : '/login'); }}
           >
             <div className="echo-btn__outline"></ div>
             <div className="echo-btn__state echo-btn__state--default">
@@ -121,7 +121,7 @@ const Homepage = () => {
     <div className="homepage">
       <MorningTide speed={1.0} />
       <Navigation />
-      {user && <TypingHero />}
+      <TypingHero user={user} />
     </div>
   );
 };
