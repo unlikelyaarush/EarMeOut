@@ -7,6 +7,7 @@ import './Team.css';
 import mananImg from '../images/manan.png';
 import ayushImg from '../images/ayush.jpg';
 import aarushImg from '../images/aarush.jpg';
+import mokshImg from '../images/moksh.webp';
 
 const Team = () => {
   // Team member data - easily add images by replacing the imageUrl with actual paths
@@ -63,7 +64,7 @@ const Team = () => {
       id: 5,
       name: 'Moksh Khemka',
       role: 'Role/Position',
-      imageUrl: '', // Add image path here: '/images/team/member5.jpg'
+      imageUrl: mokshImg,
       bio: 'Add a brief bio or description here.',
       social: {
         linkedin: '#',
