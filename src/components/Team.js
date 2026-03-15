@@ -4,13 +4,15 @@ import MorningTide from './MorningTide';
 import Footer from './Footer';
 import './Page.css';
 import './Team.css';
+import mananImg from '../images/manan.webp';
+import ayushImg from '../images/ayush.jpg';
 
 const Team = () => {
   // Team member data - easily add images by replacing the imageUrl with actual paths
   const teamMembers = [
     {
       id: 1,
-      name: 'Team Member 1',
+      name: 'Ekaagar Chawla',
       role: 'Role/Position',
       imageUrl: '', // Add image path here: '/images/team/member1.jpg'
       bio: 'Add a brief bio or description here.',
@@ -22,9 +24,9 @@ const Team = () => {
     },
     {
       id: 2,
-      name: 'Team Member 2',
+      name: 'Manan Singh',
       role: 'Role/Position',
-      imageUrl: '', // Add image path here: '/images/team/member2.jpg'
+      imageUrl: mananImg,
       bio: 'Add a brief bio or description here.',
       social: {
         linkedin: '#',
@@ -34,7 +36,7 @@ const Team = () => {
     },
     {
       id: 3,
-      name: 'Team Member 3',
+      name: 'Jeet Singh',
       role: 'Role/Position',
       imageUrl: '', // Add image path here: '/images/team/member3.jpg'
       bio: 'Add a brief bio or description here.',
@@ -46,7 +48,7 @@ const Team = () => {
     },
     {
       id: 4,
-      name: 'Team Member 4',
+      name: 'Aarush Channur',
       role: 'Role/Position',
       imageUrl: '', // Add image path here: '/images/team/member4.jpg'
       bio: 'Add a brief bio or description here.',
@@ -58,7 +60,7 @@ const Team = () => {
     },
     {
       id: 5,
-      name: 'Team Member 5',
+      name: 'Moksh Khemka',
       role: 'Role/Position',
       imageUrl: '', // Add image path here: '/images/team/member5.jpg'
       bio: 'Add a brief bio or description here.',
@@ -70,9 +72,9 @@ const Team = () => {
     },
     {
       id: 6,
-      name: 'Team Member 6',
+      name: 'Ayush Gupta',
       role: 'Role/Position',
-      imageUrl: '', // Add image path here: '/images/team/member6.jpg'
+      imageUrl: ayushImg,
       bio: 'Add a brief bio or description here.',
       social: {
         linkedin: '#',

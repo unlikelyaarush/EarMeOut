@@ -51,37 +51,44 @@ const TypingHero = ({ user }) => {
   return (
     <div className="typing-hero">
       <div className="typing-hero__content">
-        <p className="typing-hero__text">
-          {displayedText}
-          {hasStarted && !isFinished && <span className="typing-hero__cursor">|</span>}
-        </p>
-        <div className={`typing-hero__cta ${isFinished ? 'typing-hero__cta--visible' : ''}`}>
-          <button
-            className="echo-btn"
-            onClick={(e) => { e.stopPropagation(); navigate(user ? '/chat' : '/login'); }}
-          >
-            <div className="echo-btn__outline"></ div>
-            <div className="echo-btn__state echo-btn__state--default">
-              <div className="echo-btn__icon">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="20" width="20">
-                  <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-                </svg>
-              </div>
-              <p>
-                {'Talk'.split('').map((ch, i) => (
-                  <span key={i} style={{ '--i': i }}>{ch}</span>
-                ))}
-                <span key="space" style={{ '--i': 4 }}>&nbsp;</span>
-                {'to'.split('').map((ch, i) => (
-                  <span key={`to-${i}`} style={{ '--i': i + 5 }}>{ch}</span>
-                ))}
-                <span key="space2" style={{ '--i': 7 }}>&nbsp;</span>
-                {'Echo'.split('').map((ch, i) => (
-                  <span key={`echo-${i}`} style={{ '--i': i + 8 }}>{ch}</span>
-                ))}
-              </p>
+        <div className="typing-hero__main">
+          <div className="typing-hero__text-wrapper">
+            <p className="typing-hero__text">
+              {displayedText}
+              {hasStarted && !isFinished && <span className="typing-hero__cursor">|</span>}
+            </p>
+            <div className={`typing-hero__cta ${isFinished ? 'typing-hero__cta--visible' : ''}`}>
+              <button
+                className="echo-btn"
+                onClick={(e) => { e.stopPropagation(); navigate(user ? '/chat' : '/login'); }}
+              >
+                <div className="echo-btn__outline"></ div>
+                <div className="echo-btn__state echo-btn__state--default">
+                  <div className="echo-btn__icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="20" width="20">
+                      <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                    </svg>
+                  </div>
+                  <p>
+                    {'Talk'.split('').map((ch, i) => (
+                      <span key={i} style={{ '--i': i }}>{ch}</span>
+                    ))}
+                    <span key="space" style={{ '--i': 4 }}>&nbsp;</span>
+                    {'to'.split('').map((ch, i) => (
+                      <span key={`to-${i}`} style={{ '--i': i + 5 }}>{ch}</span>
+                    ))}
+                    <span key="space2" style={{ '--i': 7 }}>&nbsp;</span>
+                    {'Echo'.split('').map((ch, i) => (
+                      <span key={`echo-${i}`} style={{ '--i': i + 8 }}>{ch}</span>
+                    ))}
+                  </p>
+                </div>
+              </button>
             </div>
-          </button>
+          </div>
+          <div className="typing-hero__bot-wrapper">
+            <img src="/earmeout-bot.png" alt="EarMeOut Bot" className="typing-hero__bot-img" />
+          </div>
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ const Footer = () => {
             A nonprofit initiative dedicated to making mental health support accessible to everyone, everywhere.
           </p>
         </div>
-        
+
         <div className="footer-right">
           <nav className="footer-nav">
             <Link to="/events" className="footer-link">Events</Link>
@@ -22,10 +22,10 @@ const Footer = () => {
           </nav>
         </div>
       </div>
-      
+
       <div className="footer-bottom">
         <p className="footer-copyright">
-          © 2025 EarMeOut Nonprofit. All rights reserved.
+          © 2026 EarMeOut Nonprofit. All rights reserved.
         </p>
         <p className="footer-made-with">
           For mental health awareness.

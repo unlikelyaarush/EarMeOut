@@ -24,9 +24,10 @@
 
 .typing-hero__content {
   text-align: left;
-  max-width: 750px;
+  max-width: 1200px;
   padding: 0 2rem;
   margin-left: 8%;
+  width: 100%;
 }
 
 .typing-hero__tap-hint {
@@ -40,8 +41,15 @@
 }
 
 @keyframes hintPulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
 
 .typing-hero__text {
@@ -63,8 +71,15 @@
 }
 
 @keyframes cursorBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 /* CTA button — hidden until typing finishes */
@@ -106,16 +121,19 @@
   font-size: 18px;
   font-weight: 600;
 }
+
 .echo-btn:hover {
   transform: scale(1.02);
   box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
     0 15px 30px rgba(0, 0, 0, 0.3), 0 10px 3px -3px rgba(0, 0, 0, 0.04);
 }
+
 .echo-btn:active {
   transform: scale(1);
   box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
     0 10px 3px -3px rgba(0, 0, 0, 0.2);
 }
+
 .echo-btn::after {
   content: "";
   position: absolute;
@@ -127,10 +145,12 @@
   z-index: 0;
   transition: all 0.4s ease;
 }
+
 .echo-btn:hover::after {
   transform: scale(1.05, 1.1);
   box-shadow: inset 0 -1px 3px 0 rgba(255, 255, 255, 1);
 }
+
 .echo-btn::before {
   content: "";
   inset: 7px 6px 6px 6px;
@@ -151,6 +171,7 @@
   transition: opacity 0.4s ease;
   inset: -2px -3.5px;
 }
+
 .echo-btn__outline::before {
   content: "";
   position: absolute;
@@ -159,13 +180,21 @@
   animation: echoSpin 2s linear infinite;
   animation-play-state: paused;
 }
+
 @keyframes echoSpin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
+
 .echo-btn:hover .echo-btn__outline {
   opacity: 1;
 }
+
 .echo-btn:hover .echo-btn__outline::before {
   animation-play-state: running;
 }
@@ -177,12 +206,14 @@
   display: flex;
   position: relative;
 }
+
 .echo-btn__state p {
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0;
 }
+
 .echo-btn__icon {
   position: absolute;
   left: 0;
@@ -195,21 +226,26 @@
   align-items: center;
   justify-content: center;
 }
+
 .echo-btn__icon svg {
   overflow: visible;
 }
+
 .echo-btn__state--default .echo-btn__icon svg {
   animation: echoLand 0.6s ease forwards;
 }
+
 .echo-btn:hover .echo-btn__state--default .echo-btn__icon {
   transform: rotate(45deg) scale(1.25);
 }
+
 @keyframes echoLand {
   0% {
     transform: translateX(-60px) translateY(30px) rotate(-50deg) scale(2);
     opacity: 0;
     filter: blur(3px);
   }
+
   100% {
     transform: translateX(0) translateY(0) rotate(0);
     opacity: 1;
@@ -223,15 +259,30 @@
   opacity: 0;
   animation: echoSlideDown 0.8s ease forwards calc(var(--i) * 0.03s);
 }
+
 .echo-btn:hover p span {
   opacity: 1;
   animation: echoWave 0.5s ease forwards calc(var(--i) * 0.02s);
 }
+
 @keyframes echoWave {
-  30% { opacity: 1; transform: translateY(4px); }
-  50% { opacity: 1; transform: translateY(-3px); color: var(--primary); }
-  100% { opacity: 1; transform: translateY(0); }
+  30% {
+    opacity: 1;
+    transform: translateY(4px);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
+    color: var(--primary);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 @keyframes echoSlideDown {
   0% {
     opacity: 0;
@@ -239,9 +290,22 @@
     color: var(--primary);
     filter: blur(5px);
   }
-  30% { opacity: 1; transform: translateY(4px) translateX(0) rotate(0); filter: blur(0); }
-  50% { opacity: 1; transform: translateY(-3px) translateX(0) rotate(0); }
-  100% { opacity: 1; transform: translateY(0) translateX(0) rotate(0); }
+
+  30% {
+    opacity: 1;
+    transform: translateY(4px) translateX(0) rotate(0);
+    filter: blur(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-3px) translateX(0) rotate(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateX(0) rotate(0);
+  }
 }
 
 /* Responsive */
@@ -249,10 +313,12 @@
   .typing-hero__content {
     margin-left: 5%;
   }
+
   .typing-hero__text {
     font-size: 2.5rem;
     min-height: 3.5rem;
   }
+
   .echo-btn {
     font-size: 16px;
     min-width: 180px;
@@ -266,10 +332,12 @@
     margin-left: 0;
     padding: 0 1.25rem;
   }
+
   .typing-hero__text {
     font-size: 1.8rem;
     min-height: 2.5rem;
   }
+
   .echo-btn {
     font-size: 14px;
     min-width: 160px;
@@ -1006,5 +1074,74 @@
 
   .stat-label {
     font-size: 0.9rem;
+  }
+}
+
+/* Typing Hero Bot Layout */
+.typing-hero__main {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 100px;
+}
+
+.typing-hero__text-wrapper {
+  flex: 1;
+  max-width: 750px;
+}
+
+.typing-hero__bot-wrapper {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5%;
+}
+
+.typing-hero__bot-img {
+  width: 400px;
+  height: auto;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+  animation: typingHeroBotFloat 4s ease-in-out infinite;
+}
+
+@keyframes typingHeroBotFloat {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@media (max-width: 1024px) {
+  .typing-hero__main {
+    flex-direction: column-reverse;
+    text-align: center;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .typing-hero__text-wrapper {
+    max-width: 100%;
+  }
+
+  .typing-hero__bot-wrapper {
+    margin-right: 0;
+  }
+
+  .typing-hero__bot-img {
+    width: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .typing-hero__bot-img {
+    width: 220px;
   }
 }
