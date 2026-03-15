@@ -4,8 +4,9 @@ import MorningTide from './MorningTide';
 import Footer from './Footer';
 import './Page.css';
 import './Team.css';
-import mananImg from '../images/manan.webp';
+import mananImg from '../images/manan.png';
 import ayushImg from '../images/ayush.jpg';
+import aarushImg from '../images/aarush.jpg';
 
 const Team = () => {
   // Team member data - easily add images by replacing the imageUrl with actual paths
@@ -50,7 +51,7 @@ const Team = () => {
       id: 4,
       name: 'Aarush Channur',
       role: 'Role/Position',
-      imageUrl: '', // Add image path here: '/images/team/member4.jpg'
+      imageUrl: aarushImg,
       bio: 'Add a brief bio or description here.',
       social: {
         linkedin: '#',
